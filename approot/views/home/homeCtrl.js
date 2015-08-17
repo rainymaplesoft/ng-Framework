@@ -54,9 +54,9 @@
                     url: 'https://en.wikipedia.org/wiki/Representational_state_transfer'
                 },
                 {
-                    img: "fontawesome.png",
-                    name: 'Font Awesome (iconic font & css tools)',
-                    url: 'http://fortawesome.github.io/Font-Awesome/'
+                    img: "normalize.png",
+                    name: 'Normalize (cross-browser styling)',
+                    url: 'https://necolas.github.io/normalize.css/'
                 }
             ];
         return angular.forEach(techs, function (tech) {

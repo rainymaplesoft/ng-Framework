@@ -56,6 +56,7 @@ function getVendorJs(bower_libs, extra_libs) {
 
 function getVendorCss(bower_libs, extra_libs) {
     return [
+        bower_libs + "/normalize/normalize.js",
         bower_libs + "/bootstrap/dist/css/bootstrap.css",
         bower_libs + "/fontawesome/css/font-awesome.css",
         bower_libs + "/toastr/toastr.min.css",
@@ -67,7 +68,7 @@ function getVendorCss(bower_libs, extra_libs) {
 
 function getVendorFonts(bower_libs) {
     return [
-        bower_libs + '/fontawesome/fonts/**/*.*',
+        //bower_libs + '/fontawesome/fonts/**/*.*',
         bower_libs + '/bootstrap/dist/fonts/**/*.*'
     ];
 }

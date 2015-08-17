@@ -88,9 +88,10 @@ gulp.task('rain-css', function () {
 
 // 2.1 -- vendor: fonts
 gulp.task('vendor-fonts', ['clean-fonts'], function () {
-    log('copying fonts');
+    var destFolder = config.distribution + '/fonts';
+    log('copying fonts to ' + destFolder);
     return gulp.src(config.vendorFonts)
-        .pipe(gulp.dest(config.distribution + '/fonts'))
+        .pipe(gulp.dest(destFolder))
 });
 
 gulp.task('clean-fonts', function (funcDone) {
@@ -104,7 +105,7 @@ gulp.task('vendor-css', ['vendor-css-map'], function () {
     return gulp
         .src(config.vendorCss)
         .pipe($.concat('vendor.css'))
-        .pipe($.csso())
+        //.pipe($.csso())
         .pipe(gulp.dest(config.distribution + '/css/'))
 });
 
@@ -185,8 +186,8 @@ gulp.task('deploy-copy', function () {
 gulp.task('deploy-clear-js', function (funcDone) {
     log('Clear app level JavaScript files in deployment folder');
     var deploy_approot = config.approot;
-    if(deploy_approot[0]==='.'){
-        deploy_approot=deploy_approot.substr(1);
+    if (deploy_approot[0] === '.') {
+        deploy_approot = deploy_approot.substr(1);
     }
     var allAppJs = config.deploy_root + deploy_approot + '/**/*.js';
     log(allAppJs);
@@ -197,7 +198,7 @@ gulp.task('deploy-clear-js', function (funcDone) {
 
 gulp.task('rebuild', function (callback) {
     runSequence('build-clean',
-        ['vendor-js', 'vendor-css', 'vendor-fonts'],
+        ['vendor-js','vendor-css','vendor-fonts'],
         ['rain-js', 'rain-css'],
         ['app-js', 'app-css'],
         ['deploy-copy'],
