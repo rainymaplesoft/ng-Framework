@@ -3,7 +3,7 @@ module.exports = function () {
     var rainModule = './rainModules';
     var bower_libs = './bower_components';
     var extra_libs = './libs';   // manually added, cannot be installed by bower
-    var deploy_root = './z_gh-pages/ng-Framework';
+    var deploy_root = '../ng-Framework.github.io';
 
 
     var config = {

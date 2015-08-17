@@ -214,7 +214,7 @@ gulp.task('build-clean', function (funcDone) {
 //================
 function clean(path, funcDone) {
     log('Cleaning: ' + $.util.colors.blue(path));
-    del(path, funcDone);
+    del(path, {force:true}, funcDone);
 }
 
 function log(msg) {
