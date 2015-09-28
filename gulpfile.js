@@ -57,8 +57,8 @@ gulp.task('rain-js',
     function () {
         log('Building rainModule.js');
         return gulp.src(['./rainModules/**/*.js'])
-            .pipe($.plumber())
-            .pipe($.angularFilesort())         // make sure the depended files are up front
+            .pipe($.plumber())              // Prevent pipe breaking caused by errors from gulp plugins
+            .pipe($.angularFilesort())      // make sure the depended files are up front
             .pipe($.stripLine(['use strict']))     // remove some unnecessary texts
             .pipe($.concat('rain.js'))   // concatenate all the files to this one
             .pipe($.ngAnnotate())
