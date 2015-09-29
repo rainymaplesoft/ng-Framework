@@ -1,3 +1,4 @@
+/*
 (function () {
     angular.module('rainMenu').directive('rainMenu',['$timeout',rainMenu] );
 
@@ -31,3 +32,4 @@
     }
 
 })();
+*/

@@ -1,3 +1,4 @@
+/*
 (function () {
     angular.module('rainMenu').directive('rainMenuGroup', rainMenuGroup);
 
@@ -69,3 +70,4 @@
         }
     }
 })();
+*/

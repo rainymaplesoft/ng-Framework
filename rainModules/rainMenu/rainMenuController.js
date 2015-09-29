@@ -81,9 +81,11 @@ var rain;
                     $scope.toggleMenuOrientation();
                 }
             }
-            RainMenuController.prototype.closeCurrentMenu = function () {
+            RainMenuController.prototype.getActiveElement = function () {
+                return undefined;
             };
             RainMenuController.prototype.getActiveGroupElement = function () {
+                return undefined;
             };
             RainMenuController.prototype.setRoute = function (route) {
             };
@@ -95,6 +97,8 @@ var rain;
             RainMenuController.prototype.setActiveGroupElement = function (element) {
             };
             RainMenuController.prototype.setActiveElement = function (el) {
+            };
+            RainMenuController.prototype.closeCurrentMenu = function () {
             };
             RainMenuController.$inject = ['$scope', '$rootScope'];
             return RainMenuController;

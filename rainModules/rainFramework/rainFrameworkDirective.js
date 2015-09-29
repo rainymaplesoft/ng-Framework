@@ -2,6 +2,7 @@
 * Accepted attributes: title, sub-title, router, icon-file
 * */
 
+/*
 (function () {
     angular.module('rainFramework').directive('rainFramework', rainFramework);
 
@@ -19,3 +20,4 @@
         }
     }
 })();
+*/

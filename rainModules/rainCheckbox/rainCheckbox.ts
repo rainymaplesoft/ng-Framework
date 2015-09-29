@@ -2,22 +2,27 @@
 
 module rain.checkbox {
 
+    interface IScope extends ng.IScope {
+        readonly:boolean;
+        rainCheckbox:boolean;
+        //onChanging():void;
+    }
+
     class RainCheckController {
         static $inject = ['$scope'];
 
-        constructor($scope) {
-            $scope.onclick = function () {
+        constructor($scope:IScope) {
+            this.onclick = function () {
                 if ($scope.readonly === true) {
                     return;
                 }
                 $scope.rainCheckbox = !$scope.rainCheckbox;
-                $scope.onChanging();
+                //$scope.onChanging();
             }
         }
-    }
 
-    interface IScope extends ng.IScope {
-        readonly:boolean;
+        onclick():void {
+        }
     }
 
     class RainCheckboxDirective implements ng.IDirective {
@@ -36,6 +41,7 @@ module rain.checkbox {
             onChanging: '&'
         };
         controller = RainCheckController;
+        controllerAs = 'vm';
         link = (scope:IScope, element:ng.IAugmentedJQuery):void => {
             setReadOnly();
             scope.$watch('readonly', function () {
@@ -53,14 +59,14 @@ module rain.checkbox {
 
     }
 
-    angular.module('rainCheckbox',[]).directive('rainCheckbox', RainCheckboxDirective.instance);
+    angular.module('rainCheckbox', []).directive('rainCheckbox', RainCheckboxDirective.instance);
 
-    function getTemplate():string  {
+    function getTemplate():string {
         return '<div class="rain-checkbox-container">' +
             '<div class="checkbox-image">' +
             '<div  class="rain-checkbox">' +
             '<input type="checkbox" ng-model="rainCheckbox" style="display: inline;"/>' +
-            '<label class="checkbox-label" ng-click="onclick()"></label>' +
+            '<label class="checkbox-label" ng-click="vm.onclick()"></label>' +
             '</div>' +
             '</div>' +
             '<div class="checkbox-text">' +

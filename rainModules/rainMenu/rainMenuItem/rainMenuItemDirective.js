@@ -1,3 +1,4 @@
+/*
 (function () {
     angular.module('rainMenu').directive('rainMenuItem', rainMenuItem);
 
@@ -40,3 +41,4 @@
         })
     }
 })();
+*/

@@ -15,7 +15,8 @@ module rain.menu {
         isVertical():boolean;
         setRoute(route:string):void;
         closeCurrentMenu():void;
-        getActiveGroupElement():void;
+        getActiveGroupElement():HTMLElement;
+        getActiveElement():HTMLElement;
     }
 
     interface IRainMenuScope extends ng.IScope {
@@ -30,22 +31,7 @@ module rain.menu {
         toggleMenuOrientation():void;
     }
     class RainMenuController implements IRainMenuController {
-        closeCurrentMenu():void {
-        }
 
-        getActiveGroupElement():void {
-        }
-        setRoute(route:string):void {
-        }
-        isVertical():boolean {
-            return undefined;
-        }
-        setOpenMenuScope(scope:ng.IScope):void {
-        }
-        setActiveGroupElement(element:angular.IAugmentedJQuery):void {
-        }
-        setActiveElement(el:angular.IAugmentedJQuery):void {
-        }
 
         static $inject = ['$scope', '$rootScope'];
 
@@ -124,6 +110,26 @@ module rain.menu {
                     e.stopPropagation();
                 }
             })
+        };
+
+        getActiveElement():HTMLElement {
+            return undefined;
+        }
+        getActiveGroupElement():HTMLElement {
+            return undefined;
+        }
+        setRoute(route:string):void {
+        }
+        isVertical():boolean {
+            return undefined;
+        }
+        setOpenMenuScope(scope:ng.IScope):void {
+        }
+        setActiveGroupElement(element:angular.IAugmentedJQuery):void {
+        }
+        setActiveElement(el:angular.IAugmentedJQuery):void {
+        }
+        closeCurrentMenu():void {
         }
     }
 

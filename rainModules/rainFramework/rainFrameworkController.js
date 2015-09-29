@@ -1,8 +1,9 @@
-/*
+/**
  * event to broadcast:   'rain-menu-show','rain-change-route-event'
  * event to watch:       'rain-menu-item-selected-event','rain-menu-orientation-changed-event'
  * router:               'ngRoute','uiRouter','ngNewRouter'
  * */
+/*
 
 (function () {
     angular.module('rainFramework').controller('rainFramework.controller', [
@@ -109,3 +110,4 @@
     }
 })();
 
+*/
