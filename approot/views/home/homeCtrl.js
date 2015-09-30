@@ -40,6 +40,7 @@
             [
                 {img: "HTML5.png", name: 'HTML 5 & CSS 3', url: 'http://www.w3schools.com/html/html5_intro.asp'},
                 {img: "angular.png", name: 'AngularJs (javascript framework)', url: 'https://angularjs.org/'},
+                {img: "typescript.png", name: 'TypeScript (a typed superset of JavaScript)', url: 'http://www.typescriptlang.org/'},
                 {img: "bootstrap.png", name: 'Twitter Bootstrap (css framework)', url: 'http://getbootstrap.com/'},
                 {img: "sass.png", name: "Sass (stylesheet language)", url: 'http://sass-lang.com/'},
                 {img: "underscore.png", name: 'lodash.js (javascript library)', url: 'https://lodash.com/'},

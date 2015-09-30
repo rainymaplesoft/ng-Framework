@@ -15,14 +15,14 @@
             <div class="pull-right">
                 <div>
                     <div style="text-align: right;margin-right: 10px;display: inline-block;">
-                        <div class="cellphone-hide welcome">Welcome <strong>{{username}}!</strong>
+                        <div class="cellphone-hide welcome">Welcome <strong>{{vm.username}}!</strong>
                         </div>
-                        <a class="btn-logout r-nav-button" ng-click="logout()">
+                        <a class="btn-logout r-nav-button" ng-click="vm.logout()">
                             <i class="fa fa-sign-out"></i><!--<span class="cellphone-hide"> Log out</span>-->
                         </a>
                     </div>
-                    <div ng-if="isMenuButtonVisible" class="r-collapsed-menu">
-                        <a class="r-nav-button" ng-click="menuButtonClicked()">
+                    <div ng-if="vm.isMenuButtonVisible" class="r-collapsed-menu">
+                        <a class="r-nav-button" ng-click="vm.menuButtonClicked()">
                             <i class="fa fa-bars"></i>
                         </a>
                     </div>
@@ -41,16 +41,16 @@
 
 <!-- viewport -->
 <!-- Accepted attributes: title, sub-title, router, icon-file -->
-<div ng-switch="routerName" class="rain-view" ng-class="{'rain-view-full-width':isFullWidth()}">
+<div ng-switch="vm.routerName" class="rain-view" ng-class="{'rain-view-full-width':vm.isFullWidth()}">
 
     <div ng-switch-when="NGNEWROUTER">
-        <ng-viewport>{{routeString}}</ng-viewport>
+        <ng-viewport>{{vm.routeString}}</ng-viewport>
     </div>
     <div ng-switch-when="UIROUTER">
         <div ui-view></div>
     </div>
     <div ng-switch-default>
-        <div ng-view>{{routeString}}</div>
+        <div ng-view>{{vm.routeString}}</div>
     </div>
 
 </div>

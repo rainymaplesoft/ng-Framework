@@ -5,7 +5,7 @@ module rain.checkbox {
     interface IScope extends ng.IScope {
         readonly:boolean;
         rainCheckbox:boolean;
-        //onChanging():void;
+        onChanging():void;
     }
 
     class RainCheckController {
@@ -17,7 +17,7 @@ module rain.checkbox {
                     return;
                 }
                 $scope.rainCheckbox = !$scope.rainCheckbox;
-                //$scope.onChanging();
+                $scope.onChanging();
             }
         }
 

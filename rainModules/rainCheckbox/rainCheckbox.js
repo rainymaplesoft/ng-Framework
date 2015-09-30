@@ -10,7 +10,7 @@ var rain;
                         return;
                     }
                     $scope.rainCheckbox = !$scope.rainCheckbox;
-                    //$scope.onChanging();
+                    $scope.onChanging();
                 };
             }
             RainCheckController.prototype.onclick = function () {

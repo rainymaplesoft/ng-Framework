@@ -11,16 +11,7 @@
 module rain.framework {
 
     interface IRainFrameworkController {
-        setupEvents():void;
-        checkWidth():void;
-        broadcastRoute(routeString:string):void;
-        broadcastMenuState():void;
-        logout():void;
         narrowScreen:number;
-    }
-
-    interface IRainFrameworkScope extends ng.IScope {
-        router:string;
         routerName:string;
         routeString:string;
         username:string;
@@ -28,12 +19,35 @@ module rain.framework {
         isVerticalMenuVisible:boolean;
         isFloatVerticalMenu:boolean;
         isMenuButtonVisible:boolean;
+        setupEvents():void;
+        checkWidth():void;
+        broadcastRoute(routeString:string):void;
+        broadcastMenuState():void;
+        logout():void;
         isFullWidth():boolean;
         logout():void;
         menuButtonClicked():void;
     }
 
+    interface IRainFrameworkScope extends ng.IScope {
+        router:string;
+    }
+
     class RainFrameworkController implements IRainFrameworkController {
+        routerName:string;
+        routeString:string;
+        username:string;
+        isMenuVertical:boolean;
+        isVerticalMenuVisible:boolean;
+        isFloatVerticalMenu:boolean;
+        isMenuButtonVisible:boolean;
+
+        isFullWidth():boolean {
+            return undefined;
+        }
+
+        menuButtonClicked():void {
+        }
 
         narrowScreen = 768;
 
@@ -47,14 +61,14 @@ module rain.framework {
                     private oauth:any) {
 
             // init scope models
-            $scope.isMenuButtonVisible = true;
-            $scope.isVerticalMenuVisible = true;
-            $scope.isMenuVertical = true;
-            $scope.routerName = $scope.router.trim().toUpperCase();
-            $scope.username = currentUser.profile.username;
-            $scope.logout = this.logout;
-            $scope.isFullWidth = function () {
-                return !$scope.isMenuVertical || !$scope.isVerticalMenuVisible || $scope.isFloatVerticalMenu;
+            var self = this;
+            self.isMenuButtonVisible = true;
+            self.isVerticalMenuVisible = true;
+            self.isMenuVertical = true;
+            self.routerName = $scope.router.trim().toUpperCase();
+            self.username = currentUser.profile.username;
+            self.isFullWidth = function () {
+                return !self.isMenuVertical || !self.isVerticalMenuVisible || self.isFloatVerticalMenu;
             };
 
 
@@ -78,21 +92,21 @@ module rain.framework {
         setupEvents():void {
             var self = this;
             self.$scope.$on('rain-menu-item-selected-event', function (event, data) {
-                self.$scope.routeString = data.route;
-                if (self.$scope.routeString) {
-                    self.broadcastRoute(self.$scope.routeString);
+                self.routeString = data.route;
+                if (self.routeString) {
+                    self.broadcastRoute(self.routeString);
                 }
                 self.checkWidth();
             });
 
             this.$scope.$on('rain-menu-orientation-changed-event', function (event, data) {
-                self.$scope.isMenuVertical = data.isMenuVertical;
+                self.isMenuVertical = data.isMenuVertical;
             });
 
 
             // in jQuery, we can add a namespace to an event (here is 'rainFramework')
             $(self.$window).on('resize.rainFramework', function () {
-                self.$scope.$apply( ()=> {
+                self.$scope.$apply(()=> {
                     self.checkWidth();
                 })
             });
@@ -102,10 +116,10 @@ module rain.framework {
                 $(self.$window).off('resize.rainFramework');
             });
 
-            self.$scope.menuButtonClicked = function () {
-                self.$scope.isVerticalMenuVisible = !self.$scope.isVerticalMenuVisible;
+            self.menuButtonClicked = function () {
+                self.isVerticalMenuVisible = !self.isVerticalMenuVisible;
                 var width = Math.max(self.$window.innerWidth, $(self.$window).width());
-                self.$scope.isMenuVertical = (width <= self.narrowScreen);
+                self.isMenuVertical = (width <= self.narrowScreen);
                 self.broadcastMenuState();
                 //$scope.$apply();
             };
@@ -114,9 +128,9 @@ module rain.framework {
 
         checkWidth():void {
             var width = Math.max(this.$window.innerWidth, $(this.$window).width());
-            this.$scope.isVerticalMenuVisible = (width > this.narrowScreen);
-            this.$scope.isFloatVerticalMenu = width <= this.narrowScreen;
-            this.$scope.isMenuButtonVisible = !this.$scope.isVerticalMenuVisible;
+            this.isVerticalMenuVisible = (width > this.narrowScreen);
+            this.isFloatVerticalMenu = width <= this.narrowScreen;
+            this.isMenuButtonVisible = !this.isVerticalMenuVisible;
             this.broadcastMenuState();
         }
 
@@ -126,10 +140,10 @@ module rain.framework {
 
         broadcastMenuState():void {
             this.$rootScope.$broadcast('rain-menu-show', {
-                show: this.$scope.isVerticalMenuVisible,
-                isVertical: this.$scope.isMenuVertical,
-                isFloatVerticalMenu: this.$scope.isFloatVerticalMenu,
-                allowHorizontalMenu: !this.$scope.isMenuButtonVisible
+                show: this.isVerticalMenuVisible,
+                isVertical: this.isMenuVertical,
+                isFloatVerticalMenu: this.isFloatVerticalMenu,
+                allowHorizontalMenu: !this.isMenuButtonVisible
             })
         }
 

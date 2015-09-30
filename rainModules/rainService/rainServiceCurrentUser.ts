@@ -46,7 +46,8 @@ module rainService.currentUser {
                 loggedIn() {
                     return !!this.token;
                 }
-                /*get loggedIn() {
+                /* -- should be a getter, however is not supported by typescript interface
+                get loggedIn() {
                  return !!this.token;
                  }*/
             };
