@@ -15,8 +15,8 @@ module rain.menu {
         isVertical():boolean;
         setRoute(route:string):void;
         closeCurrentMenu():void;
-        getActiveGroupElement():HTMLElement;
-        getActiveElement():HTMLElement;
+        getActiveGroupElement():ng.IAugmentedJQuery;
+        getActiveElement():ng.IAugmentedJQuery;
     }
 
     interface IRainMenuScope extends ng.IScope {
@@ -25,8 +25,8 @@ module rain.menu {
         openMenuScope:any;
         horizontalMenu:any;
         allowHorizontalMenu:boolean;
-        activeElement:HTMLElement;
-        activeGroupElement:HTMLElement;
+        activeElement:ng.IAugmentedJQuery;
+        activeGroupElement:ng.IAugmentedJQuery;
         isFloatVerticalMenu:boolean;
         toggleMenuOrientation():void;
     }

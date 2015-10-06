@@ -10,11 +10,11 @@ var rainService;
             function AddToken($q, currentUser) {
                 this.$q = $q;
                 this.currentUser = currentUser;
-                this.request = this.funcRequest;
+                //this.request = AddToken.funcRequest;
                 AddToken._currentUser = this.currentUser;
                 AddToken._q = this.$q;
             }
-            AddToken.prototype.funcRequest = function (config) {
+            AddToken.prototype.request = function (config) {
                 var user = AddToken._currentUser;
                 var $q = AddToken._q;
                 if (user.profile.loggedIn) {

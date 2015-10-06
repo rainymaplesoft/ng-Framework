@@ -11,23 +11,23 @@ module rainService.httpInterceptor {
 
     interface IAddToken {
         // this service must return an object with property 'request'
-        request:Function;
+        request(config:ng.IHttpProviderDefaults):ng.IPromise<ng.IHttpProviderDefaults>;
     }
     class AddToken implements IAddToken {
 
-        request:Function;
+        //request:Function;
 
         static _currentUser:CurrentUser.IRainServiceCurrentUser;
         static _q:ng.IQService;
 
         constructor(private $q:ng.IQService,
                     private currentUser:CurrentUser.IRainServiceCurrentUser) {
-            this.request = this.funcRequest;
+            //this.request = AddToken.funcRequest;
             AddToken._currentUser = this.currentUser;
             AddToken._q=this.$q;
         }
 
-        funcRequest(config:ng.IHttpProviderDefaults):ng.IPromise<ng.IHttpProviderDefaults> {
+        request(config:ng.IHttpProviderDefaults):ng.IPromise<ng.IHttpProviderDefaults> {
             var user = AddToken._currentUser;
             var $q =AddToken._q;
             if (user.profile.loggedIn) {

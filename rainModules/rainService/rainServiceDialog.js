@@ -1,97 +1,184 @@
-/*
+/**
  * usage:
  * rainService.dialog.confirmModal('Confirm','Are you sure?',function_Ok);
  *
  * */
-
-(function () {
-
-    angular.module('rainService').factory('rainService.dialog', ['$modal', rainConfirm]);
-
-    function rainConfirm($modal) {
-
-        return {
-            confirmModal: confirmModal,
-            messageModal: messageModal
-        };
-
-        // confirmModal
-        function confirmModal(title, message, func_ok) {
-
-            title = title || 'Confirm';
-            message = message || 'Are you sure?';
-
-            var modalInstance = $modal.open({
-                //templateUrl: 'deleteUserModal.html',
-                //size:'sm',
-                template: getConfirmTemplate(title, message),
-                controller: ['$scope', '$modalInstance', confirmController]
-            });
-            return modalInstance.result;
-
-            function confirmController($scope, $modalInstance) {
-                $scope.ok = function () {
-                    if (func_ok && angular.isFunction(func_ok)) {
-                        func_ok();
-                        //return;
-                    }
-                    $modalInstance.close(true)
-                };
-                $scope.cancel = function () {
-                    $modalInstance.close(false)
-                };
+var rainService;
+(function (rainService) {
+    var dialog;
+    (function (dialog) {
+        var RainConfirm = (function () {
+            function RainConfirm($$modal) {
+                this.$$modal = $$modal;
+                RainConfirm.$modal = $$modal;
             }
+            /** confirmModal **/
+            RainConfirm.prototype.confirmModal = function (title, message, func_ok) {
+                title = title || 'Confirm';
+                message = message || 'Are you sure?';
+                var modalInstance = RainConfirm.$modal.open({
+                    //templateUrl: 'deleteUserModal.html',
+                    //size:'sm',
+                    template: getConfirmTemplate(title, message),
+                    controller: ['$scope', '$modalInstance', confirmController]
+                });
+                return modalInstance.result;
+                function confirmController($scope, $modalInstance) {
+                    $scope.ok = function () {
+                        if (func_ok && angular.isFunction(func_ok)) {
+                            func_ok();
+                        }
+                        $modalInstance.close(true);
+                    };
+                    $scope.cancel = function () {
+                        $modalInstance.close(false);
+                    };
+                }
+                function getConfirmTemplate(title, message) {
+                    return '<div class="modal-header">'
+                        + '<h3 class="modal-title">' + title + '</h3>'
+                        + '</div>'
+                        + '<div class="modal-body">'
+                        + '<p style="font-size: 16px;">' + message + '</p>'
+                        + '</div>'
+                        + '<div class="modal-footer">'
+                        + '<button class="btn btn-primary" ng-click="ok()">Yes</button>'
+                        + '<button class="btn btn-warning" ng-click="cancel()">No</button>'
+                        + '</div>';
+                }
+            };
+            /** messageModal **/
+            RainConfirm.prototype.messageModal = function (title, markup, func_ok) {
+                title = title || 'Information';
+                markup = markup || '<p></p>';
+                var modalInstance = RainConfirm.$modal.open({
+                    //size:'sm',
+                    template: getMessageTemplate(title, markup),
+                    controller: ['$scope', '$modalInstance', messageController]
+                });
+                return modalInstance.result;
+                function messageController($scope, $modalInstance) {
+                    $scope.ok = function () {
+                        if (func_ok && angular.isFunction(func_ok)) {
+                            func_ok();
+                        }
+                        $modalInstance.close(true);
+                    };
+                }
+                function getMessageTemplate(title, markup) {
+                    return '<div class="modal-header">'
+                        + '<h3 class="modal-title">' + title + '</h3>'
+                        + '</div>'
+                        + '<div class="modal-body">'
+                        + markup
+                        + '</div>'
+                        + '<div class="modal-footer">'
+                        + '<button class="btn btn-primary" ng-click="ok()">Close</button>'
+                        + '</div>';
+                }
+            };
+            return RainConfirm;
+        })();
+        dialog.RainConfirm = RainConfirm;
+        factory.$inject = ['$modal'];
+        function factory($modal) {
+            return new RainConfirm($modal);
         }
+        angular.module('rainService').factory('rainService.dialog', factory);
+    })(dialog = rainService.dialog || (rainService.dialog = {}));
+})(rainService || (rainService = {}));
+/*
+
+ (function () {
+
+ angular.module('rainService').factory('rainService.dialog', ['$modal', rainConfirm]);
+
+ function rainConfirm($modal) {
+
+ return {
+ confirmModal: confirmModal,
+ messageModal: messageModal
+ };
+
+ // confirmModal
+ function confirmModal(title, message, func_ok) {
+
+ title = title || 'Confirm';
+ message = message || 'Are you sure?';
+
+ var modalInstance = $modal.open({
+ //templateUrl: 'deleteUserModal.html',
+ //size:'sm',
+ template: getConfirmTemplate(title, message),
+ controller: ['$scope', '$modalInstance', confirmController]
+ });
+ return modalInstance.result;
+
+ function confirmController($scope, $modalInstance) {
+ $scope.ok = function () {
+ if (func_ok && angular.isFunction(func_ok)) {
+ func_ok();
+ //return;
+ }
+ $modalInstance.close(true)
+ };
+ $scope.cancel = function () {
+ $modalInstance.close(false)
+ };
+ }
+ }
 
 
-        function getConfirmTemplate(title, message) {
-            return '<div class="modal-header">'
-                + '<h3 class="modal-title">' + title + '</h3>'
-                + '</div>'
-                + '<div class="modal-body">'
-                + '<p style="font-size: 16px;">' + message + '</p>'
-                + '</div>'
-                + '<div class="modal-footer">'
-                + '<button class="btn btn-primary" ng-click="ok()">Yes</button>'
-                + '<button class="btn btn-warning" ng-click="cancel()">No</button>'
-                + '</div>';
-        }
+ function getConfirmTemplate(title, message) {
+ return '<div class="modal-header">'
+ + '<h3 class="modal-title">' + title + '</h3>'
+ + '</div>'
+ + '<div class="modal-body">'
+ + '<p style="font-size: 16px;">' + message + '</p>'
+ + '</div>'
+ + '<div class="modal-footer">'
+ + '<button class="btn btn-primary" ng-click="ok()">Yes</button>'
+ + '<button class="btn btn-warning" ng-click="cancel()">No</button>'
+ + '</div>';
+ }
 
-        // messageModal
-        function messageModal(title, markup, func_ok) {
+ // messageModal
+ function messageModal(title, markup, func_ok) {
 
-            title = title || 'Information';
-            markup = markup || '<p></p>';
+ title = title || 'Information';
+ markup = markup || '<p></p>';
 
-            var modalInstance = $modal.open({
-                //size:'sm',
-                template: getMessageTemplate(title, markup),
-                controller: ['$scope', '$modalInstance', messageController]
-            });
-            return modalInstance.result;
+ var modalInstance = $modal.open({
+ //size:'sm',
+ template: getMessageTemplate(title, markup),
+ controller: ['$scope', '$modalInstance', messageController]
+ });
+ return modalInstance.result;
 
-            function messageController($scope, $modalInstance) {
-                $scope.ok = function () {
-                    if (func_ok && angular.isFunction(func_ok)) {
-                        func_ok();
-                        //return;
-                    }
-                    $modalInstance.close(true)
-                };
-            }
-        }
+ function messageController($scope, $modalInstance) {
+ $scope.ok = function () {
+ if (func_ok && angular.isFunction(func_ok)) {
+ func_ok();
+ //return;
+ }
+ $modalInstance.close(true)
+ };
+ }
+ }
 
 
-        function getMessageTemplate(title, markup) {
-            return '<div class="modal-header">'
-                + '<h3 class="modal-title">' + title + '</h3>'
-                + '</div>'
-                + '<div class="modal-body">'
-                + markup
-                + '</div>'
-                + '<div class="modal-footer">'
-                + '<button class="btn btn-primary" ng-click="ok()">Close</button>'
-                + '</div>';
-        }
-    }
-})();
+ function getMessageTemplate(title, markup) {
+ return '<div class="modal-header">'
+ + '<h3 class="modal-title">' + title + '</h3>'
+ + '</div>'
+ + '<div class="modal-body">'
+ + markup
+ + '</div>'
+ + '<div class="modal-footer">'
+ + '<button class="btn btn-primary" ng-click="ok()">Close</button>'
+ + '</div>';
+ }
+ }
+ })();
+ */
+//# sourceMappingURL=rainServiceDialog.js.map
