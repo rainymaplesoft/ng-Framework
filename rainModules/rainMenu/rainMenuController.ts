@@ -112,10 +112,10 @@ module rain.menu {
             })
         };
 
-        getActiveElement():HTMLElement {
+        getActiveElement():ng.IAugmentedJQuery {
             return undefined;
         }
-        getActiveGroupElement():HTMLElement {
+        getActiveGroupElement():ng.IAugmentedJQuery {
             return undefined;
         }
         setRoute(route:string):void {

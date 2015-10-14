@@ -11,9 +11,9 @@
         $scope.gridOptions = {};
         var _dataRows = []; // _dataRows is original(neither sorted nor filtered)
         var _dataList = []; // _dataList might be sorted and/or filtered
-        var _sortings = [null, 'ASC', 'DSC'];
-        var _sortIndex = 0;
-        var _sortField = null;
+        var _sortingOptions = [null, 'ASC', 'DSC'];
+        var _currentSortIndex = 0;
+        var _currentSortField = null;
         var _isFiltered = false;
         var _dataRowsFiltered = [];
 
@@ -133,8 +133,8 @@
         function initData(gridData) {
 
             $scope.currentPage = 1;
-            _sortIndex = 0;
-            _sortField = null;
+            _currentSortIndex = 0;
+            _currentSortField = null;
 
             _dataRows = gridData.rows;
 
@@ -152,7 +152,8 @@
                 $scope.list = dataList;
                 return $scope.list;
             }
-            var pagedDataList = rainGridService.getDataListByPage(dataList, $scope.currentPage, $scope.pageSize.value);
+            var pagedDataList = rainGridService.getDataListByPage(dataList, $scope.currentPage,
+                $scope.pageSize.value,_currentSortField,_sortingOptions[_currentSortIndex]);
 
             if (pagedDataList) {
                 $scope.list = pagedDataList;
@@ -182,7 +183,7 @@
         $scope.linkTo = function (row, funcEvent, funcIdField) {
             // execute the link function of this field
             var field = _.find(row, function (col) {
-                return col.fieldName === funcIdField;
+                return col.field === funcIdField;
             });
             if (field) {
                 var id = field.value;
@@ -200,20 +201,20 @@
         };
 
         $scope.sortingChanged = function (sortField) {
-            if (_sortField !== sortField) {
-                _sortIndex = 1;
+            if (_currentSortField !== sortField) {
+                _currentSortIndex = 1;
             } else {
-                _sortIndex = _sortIndex + 1;
-                if (_sortIndex > 2) {
-                    _sortIndex = 0;
+                _currentSortIndex = _currentSortIndex + 1;
+                if (_currentSortIndex > 2) {
+                    _currentSortIndex = 0;
                 }
             }
-            _sortField = sortField;
+            _currentSortField = sortField;
             $scope.sortField = sortField;
-            $scope.sortOrder = _sortings[_sortIndex];
+            $scope.sortOrder = _sortingOptions[_currentSortIndex];
 
             var rows = _isFiltered ? _dataRowsFiltered : _dataRows;
-            _dataList = rainGridService.sortData(rows, _sortings, _sortField, _sortIndex);
+            _dataList = rainGridService.sortData(rows, _sortingOptions, _currentSortField, _currentSortIndex);
             getPageData(_dataList);
         };
 
@@ -237,8 +238,8 @@
 
         $scope.deleteRecord = function (row) {
             if ($scope.deleteEvent && $scope.deleteEventIdField) {
-                var field = _.find(row.rowData, function (col) {
-                    return col.fieldName == $scope.deleteEventIdField;
+                var field = _.find(row.fields, function (col) {
+                    return col.field == $scope.deleteEventIdField;
                 });
                 if (field) {
                     var deleteEventIdField = field.value;
@@ -249,8 +250,8 @@
 
         $scope.editRecord = function (row) {
             if ($scope.editEvent && $scope.editEventIdField) {
-                var field = _.find(row.rowData, function (col) {
-                    return col.fieldName == $scope.editEventIdField;
+                var field = _.find(row.fields, function (col) {
+                    return col.field == $scope.editEventIdField;
                 });
                 if (field) {
                     var editEventIdField = field.value;

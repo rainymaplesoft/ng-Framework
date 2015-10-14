@@ -1,12 +1,17 @@
 (function () {
     angular.module('rainGrid').factory('rainGridService',
-        ['$parse', '$modal', 'rainGridConfig', rainGridService]);
+        [
+            '$parse'
+            , '$modal'
+            //, 'rainGridConfig'
+            , rainGridService
+        ]);
 
-    function rainGridService($parse, $modal, rainGridConfig) {
-        var baseUrl = rainGridConfig.baseUrl;
+    function rainGridService($parse, $modal /*,rainGridConfig*/) {
+        //var baseUrl = rainGridConfig.baseUrl;
         return {
-            baseUrl: baseUrl,
-            rainGridLinkFunc: rainGridLinkFunc,
+            //baseUrl: baseUrl,
+            //rainGridLinkFunc: rainGridLinkFunc,
             modifyPaginationIcons: modifyPaginationIcons,
             getDataListByPage: getDataListByPage,
             buildGridData: buildGridData,
@@ -18,6 +23,7 @@
 
         // Service Functions
 
+        /*
         function rainGridLinkFunc(params, linkFunctions) {
             var field = _.find(params.row, function (col) {
                 return col.fieldName === params.funcIdField;
@@ -29,7 +35,7 @@
                 parseFunc(linkFunctions);
             }
         }
-
+*/
         function getDataListByPage(dataList, page, pageSize) {
             // page starts with 1
             if (!dataList || page <= 0) {
@@ -112,7 +118,7 @@
                         });
                     }
                 }
-                return {rowData: row, rowSelected: false, idField: idField, id: id};
+                return {fields: row, rowSelected: false, idField: idField, id: id};
             });
             if (gridOptions.selectFirstRow && gridList.rows.length > 0) {
                 gridList.rows[0].rowSelected = true;
@@ -128,7 +134,7 @@
                 return dataList;
             }
             var sortedData = _.sortBy(dataList, function (row) {
-                var rowData = row.rowData;
+                var rowData = row.fields;
                 var sortedValue = null;
                 for (var i = 0; i < rowData.length; i++) {
                     if (rowData[i].fieldName === sortField) {

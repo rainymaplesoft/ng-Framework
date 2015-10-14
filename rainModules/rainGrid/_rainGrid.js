@@ -6,6 +6,6 @@
         version: '1.0.0'
     };
 
-    app.value("rainGridConfig", config);
+    //app.value("rainGridConfig", config);
 
 })();
