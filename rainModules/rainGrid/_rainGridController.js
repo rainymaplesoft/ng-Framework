@@ -21,7 +21,7 @@
             activate();
         });
 
-        activate();
+        //activate();
 
         // controller functions
 
