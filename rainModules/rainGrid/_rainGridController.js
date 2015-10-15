@@ -53,7 +53,7 @@
             $scope.currentPage = 1;
             initPage();
             initData($scope.gridData);
-            rainGridService.modifyPaginationIcons();
+            rainGridService.setPaginationIcons();
             //cfpLoadingBar.complete();
         }
 

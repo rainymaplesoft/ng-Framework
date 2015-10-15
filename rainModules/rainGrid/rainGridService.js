@@ -147,16 +147,16 @@
         }   // end of sortData
 
         function modifyPaginationIcons() {
-            $('ul.pagination a:contains("<<"):first').html("<i class='fa fa-angle-double-left page-arrow'></i>");
-            $('ul.pagination a:contains(">>"):first').html("<i class='fa fa-angle-double-right page-arrow'></i>");
-            $('ul.pagination a:contains("<"):first').html("<i class='fa fa-angle-left page-arrow'></i>");
-            $('ul.pagination a:contains(">"):first').html("<i class='fa fa-angle-right page-arrow'></i>");
+            $('ul.pagination a:Contains("<<"):first').html("<i class='fa fa-angle-double-left page-arrow'></i>");
+            $('ul.pagination a:Contains(">>"):first').html("<i class='fa fa-angle-double-right page-arrow'></i>");
+            $('ul.pagination a:Contains("<"):first').html("<i class='fa fa-angle-left page-arrow'></i>");
+            $('ul.pagination a:Contains(">"):first').html("<i class='fa fa-angle-right page-arrow'></i>");
         }
 
         // Filtering
         function showFilterModal(gridOptions, filters) {
             var modalInstance = $modal.open({
-                templateUrl: baseUrl + 'rainGridFilterModal/rainGridFilterModalTemplate.html',
+                templateUrl: 'rainModules/rainGrid/'+'/rainGridFilterModal/rainGridFilterModalTemplate.html',
                 controller: 'rainGrid.filterModal.controller',
                 resolve: {
                     columnDefs: function () {
@@ -188,30 +188,30 @@
             switch (type) {
                 case 'number':
                     constraints = [
-                        {label: 'equal to', value: 'equalTo'},
-                        {label: 'greater than', value: 'greaterThan'},
-                        {label: 'less than', value: 'lessThan'}
+                        {label: 'equal to', value: 'EqualsTo'},
+                        {label: 'greater than', value: 'GreaterThan'},
+                        {label: 'less than', value: 'LessThan'}
                     ];
                     break;
                 case 'bool':
                     constraints = [
-                        {label: 'equal to', value: 'equalTo'}
+                        {label: 'equal to', value: 'EqualsTo'}
                     ];
                     break;
                 case 'date':
                     constraints = [
-                        {label: 'equal to', value: 'equalTo'},
-                        {label: 'greater than', value: 'greaterThan'},
-                        {label: 'less than', value: 'lessThan'}
+                        {label: 'equal to', value: 'EqualsTo'},
+                        {label: 'greater than', value: 'GreaterThan'},
+                        {label: 'less than', value: 'LessThan'}
                     ];
                     break;
                 default :
                     constraints = [
-                        {label: 'equal to', value: 'equalTo'},
-                        {label: 'greater than', value: 'greaterThan'},
-                        {label: 'less than', value: 'lessThan'},
-                        {label: 'contains', value: 'contains'},
-                        {label: 'starts with', value: 'startsWith'}
+                        {label: 'equal to', value: 'EqualsTo'},
+                        {label: 'greater than', value: 'GreaterThan'},
+                        {label: 'less than', value: 'LessThan'},
+                        {label: 'Contains', value: 'Contains'},
+                        {label: 'starts with', value: 'StartsWith'}
                     ];
             }
             return constraints;
@@ -228,7 +228,7 @@
             }
 
             _dataList = _.filter(_dataRows, function (row) {
-                var rowData = row.rowData;
+                var rowData = row.fields;
                 var condition = true;
                 for (var i = 0; i < rowData.length; i++) {
                     var column = rowData[i];
@@ -239,19 +239,19 @@
                         var filterExpression = filter.expression;
                         if (column.fieldName === filteredField) {
                             switch (filterConstraint) {
-                                case 'equalTo':
+                                case 'EqualsTo':
                                     condition = condition && column.value == filterExpression;
                                     break;
-                                case 'greaterThan':
+                                case 'GreaterThan':
                                     condition = condition && column.value > filterExpression;
                                     break;
-                                case 'lessThan':
+                                case 'LessThan':
                                     condition = condition && column.value < filterExpression;
                                     break;
-                                case 'contains':
+                                case 'Contains':
                                     condition = condition && column.value.indexOf(filterExpression) >= 0;
                                     break;
-                                case 'startsWith':
+                                case 'StartsWith':
                                     condition = condition && column.value.indexOf(filterExpression) === 0;
                                     break;
                             }
