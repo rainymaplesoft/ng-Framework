@@ -1,11 +1,8 @@
 /// <reference path="../../typings/tsd.d.ts"/>
-module rain.gridService {
+module rain.grid.service {
 
     export var baseUrl = 'rainModules/rainGrid/';
 
-    interface ILinkFuncParams {
-
-    }
     export enum SortingOptions {NONE, ASC, DSC}
 
     export enum ConstraintType{EqualsTo, GreaterThan, LessThan, Contains, StartsWith}
