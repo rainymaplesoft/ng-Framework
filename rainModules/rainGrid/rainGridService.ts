@@ -1,5 +1,5 @@
 /// <reference path="../../typings/tsd.d.ts"/>
-module rain.grid.service {
+module RainGrid {
 
     export var baseUrl = 'rainModules/rainGrid/';
 
@@ -20,7 +20,7 @@ module rain.grid.service {
         value:ConstraintType
     }
 
-    export interface IFilterColumn{
+    export interface IFilterColumn {
         label: string,
         value: any,
         isNumber: boolean,
@@ -78,13 +78,16 @@ module rain.grid.service {
     export interface IGridRowLink {
         funcEvent:string,
         funcIdField:string,
-        enable:boolean
+        enable:boolean,
+        place:number
     }
 
-
-    export interface IGridOptions<T> {
-        data:ng.IPromise<T>,
-        dataList:Array<T>
+    export interface IRowSelectedEvent {
+        funcEvent: string, funcIdField:string
+    }
+    export interface IGridOptions {
+        data:ng.IPromise<any>,
+        dataList:Array<any>
         columnDefs:Array<IColumnDefs>,
         selectable:boolean,
         selectFirstRow:boolean,
@@ -94,15 +97,16 @@ module rain.grid.service {
         idField:string,
         title:string,
         deleteLink:IGridRowLink,
-        editLink:IGridRowLink
+        editLink:IGridRowLink,
+        rowSelectedEvent:IRowSelectedEvent
     }
 
-    interface IRainGridService <T> {
+    export interface IRainGridService <T> {
         setPaginationIcons():void;
         getDataListByPage(dataList:Array<any>, page:number, pageSize:number):Array<IGridRow>;
-        buildGridData(gridOptions:IGridOptions<T>):IGridData;
+        buildGridData(gridOptions:IGridOptions):IGridData;
         getFilterConstraintsByColumnType(col:IFilterColumn):Array<IConstraint>
-        showFilterModal(gridOptions:IGridOptions<T>, filters:IGridFilter):ng.IPromise<any>;
+        showFilterModal(gridOptions:IGridOptions, filters:IGridFilter):ng.IPromise<any>;
         sortData(dataList:Array<any>, sortField:string, sortOrder:SortingOptions):Array<IGridRow>
         filterData(dataRows:Array<IGridRow>, filters:Array<IGridFilter>):Array<IGridRow>;
     }
@@ -152,7 +156,7 @@ module rain.grid.service {
             return row;
         }   // end of buildHeader
 
-        buildGridData(gridOptions:IGridOptions<T>):IGridData {
+        buildGridData(gridOptions:IGridOptions):IGridData {
             var list = gridOptions.dataList;
             var columnDefs = gridOptions.columnDefs;
             var idField = null;
@@ -255,7 +259,7 @@ module rain.grid.service {
             return constraints;
         }   // end of getFilterConstraintsByColumnType
 
-        showFilterModal(gridOptions:IGridOptions<T>, filters:IGridFilter):ng.IPromise<any> {
+        showFilterModal(gridOptions:IGridOptions, filters:IGridFilter):ng.IPromise<any> {
             var modalInstance = this.$modal.open({
                 templateUrl: baseUrl + 'rainGridFilterModal/rainGridFilterModalTemplate.html',
                 controller: 'rainGrid.filterModal.controller',

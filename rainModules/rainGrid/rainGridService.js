@@ -1,62 +1,59 @@
-(function () {
-    angular.module('rainGrid').factory('rainGridService',
-        [
-            '$parse'
-            , '$modal'
-            //, 'rainGridConfig'
-            , rainGridService
-        ]);
-
-    function rainGridService($parse, $modal /*,rainGridConfig*/) {
-        //var baseUrl = rainGridConfig.baseUrl;
-        return {
-            //baseUrl: baseUrl,
-            //rainGridLinkFunc: rainGridLinkFunc,
-            modifyPaginationIcons: modifyPaginationIcons,
-            getDataListByPage: getDataListByPage,
-            buildGridData: buildGridData,
-            sortData: sortData,
-            showFilterModal: showFilterModal,
-            getFilterConstraintsByColumnType: getFilterConstraintsByColumnType,
-            filterData: filterData
-        };
-
-        // Service Functions
-
-        /*
-        function rainGridLinkFunc(params, linkFunctions) {
-            var field = _.find(params.row, function (col) {
-                return col.fieldName === params.funcIdField;
-            });
-            if (field) {
-                var id = field.value;
-                var func = params.funcName + '(' + id + ')';
-                var parseFunc = $parse(func);
-                parseFunc(linkFunctions);
-            }
+/// <reference path="../../typings/tsd.d.ts"/>
+var RainGrid;
+(function (RainGrid) {
+    RainGrid.baseUrl = 'rainModules/rainGrid/';
+    (function (SortingOptions) {
+        SortingOptions[SortingOptions["NONE"] = 0] = "NONE";
+        SortingOptions[SortingOptions["ASC"] = 1] = "ASC";
+        SortingOptions[SortingOptions["DSC"] = 2] = "DSC";
+    })(RainGrid.SortingOptions || (RainGrid.SortingOptions = {}));
+    var SortingOptions = RainGrid.SortingOptions;
+    (function (ConstraintType) {
+        ConstraintType[ConstraintType["EqualsTo"] = 0] = "EqualsTo";
+        ConstraintType[ConstraintType["GreaterThan"] = 1] = "GreaterThan";
+        ConstraintType[ConstraintType["LessThan"] = 2] = "LessThan";
+        ConstraintType[ConstraintType["Contains"] = 3] = "Contains";
+        ConstraintType[ConstraintType["StartsWith"] = 4] = "StartsWith";
+    })(RainGrid.ConstraintType || (RainGrid.ConstraintType = {}));
+    var ConstraintType = RainGrid.ConstraintType;
+    RainGrid.FilterConstraint = {
+        EqualsTo: { label: 'equal to', value: 'EqualsTo' },
+        GreaterThan: { label: 'greater than', value: 'GreaterThan' },
+        LessThan: { label: 'less than', value: 'LessThan' },
+        Contains: { label: 'Contains', value: 'Contains' },
+        StartsWith: { label: 'starts with', value: 'StartsWith' }
+    };
+    var RainGridService = (function () {
+        function RainGridService($parse, $modal) {
+            this.$parse = $parse;
+            this.$modal = $modal;
         }
-*/
-        function getDataListByPage(dataList, page, pageSize) {
+        RainGridService.prototype.setPaginationIcons = function () {
+            $('ul.pagination a:contains("<<"):first').html("<i class='fa fa-angle-double-left page-arrow'></i>");
+            $('ul.pagination a:contains(">>"):first').html("<i class='fa fa-angle-double-right page-arrow'></i>");
+            $('ul.pagination a:contains("<"):first').html("<i class='fa fa-angle-left page-arrow'></i>");
+            $('ul.pagination a:contains(">"):first').html("<i class='fa fa-angle-right page-arrow'></i>");
+        };
+        RainGridService.prototype.getDataListByPage = function (dataList, page, pageSize) {
             // page starts with 1
             if (!dataList || page <= 0) {
                 return null;
             }
             try {
                 //dataList = sortData(dataList);
-
                 var start = (page - 1) * pageSize;
                 var pagedData = _.slice(dataList, start, start + pageSize);
                 if (!pagedData) {
                     return null;
                 }
                 return pagedData;
-            } catch (e) {
+            }
+            catch (e) {
                 console.log(e.message);
                 return null;
             }
-        }   // end of getDataListByPage
-
-        function buildHeader(columnDefs) {
+        };
+        RainGridService.prototype.buildHeader = function (columnDefs) {
             var row = [];
             angular.forEach(columnDefs, function (col) {
                 row.push({
@@ -66,42 +63,39 @@
                 });
             });
             return row;
-        }   // end of buildHeader
-
-        function buildGridData(gridOptions) {
+        }; // end of buildHeader
+        RainGridService.prototype.buildGridData = function (gridOptions) {
             var list = gridOptions.dataList;
             var columnDefs = gridOptions.columnDefs;
             var idField = null;
             var id = null;
-
-
-            var gridList = {rows: [], header: buildHeader(columnDefs)};
+            var gridList = { rows: [], header: this.buildHeader(columnDefs) };
             if (list.length == 0) {
                 return gridList;
             }
             gridList.rows = _.map(list, function (rowData) {
-                var row = [];
+                var fields = [];
                 if (!columnDefs) {
                     for (var property in rowData) {
                         if (rowData.hasOwnProperty(property)) {
-                            row.push(
-                                {
-                                    fieldName: property,
-                                    value: rowData[property],
-                                    displayName: property
-                                });
+                            fields.push({
+                                field: property,
+                                value: rowData[property],
+                                displayName: property
+                            });
                         }
                     }
-                } else {
+                }
+                else {
                     idField = gridOptions.idField;
                     if (idField) {
                         id = rowData[gridOptions.idField];
                     }
                     for (var i = 0; i < columnDefs.length; i++) {
                         var col = columnDefs[i];
-                        row.push({
+                        var gridData = {
                             id: rowData[gridOptions.idField],
-                            fieldName: col.field,
+                            field: col.field,
                             value: rowData[col.field] || col.field,
                             displayName: col.displayName,
                             isCheckbox: col.isCheckbox,
@@ -113,50 +107,66 @@
                             isIcon: col.isIcon,
                             isDate: col.isDate,
                             isHidden: col.isHidden || false,
-                            linkFunc: col.linkFunc || {funcName: '', funcIdField: ''},
+                            linkFunc: col.linkFunc || { funcEvent: '', funcIdField: '' },
                             order: i
-                        });
+                        };
+                        fields.push(gridData);
                     }
                 }
-                return {fields: row, rowSelected: false, idField: idField, id: id};
+                var gridRow = { fields: fields, rowSelected: false, idField: 'idField', id: 'id' };
+                return gridRow;
             });
             if (gridOptions.selectFirstRow && gridList.rows.length > 0) {
                 gridList.rows[0].rowSelected = true;
             }
-
             return gridList;
-        }   // end of buildGridData
-
-        // Sorting
-        function sortData(dataList, sortings, sortField, sortIndex) {
-            var sortOrder = sortings[sortIndex];
-            if (!sortField || !sortOrder) {
-                return dataList;
+        }; // end of buildGridData
+        RainGridService.prototype.getFilterConstraintsByColumnType = function (col) {
+            var constraints = [];
+            var type = 'text';
+            if (col.isNumber || col.isCurrency) {
+                type = 'number';
             }
-            var sortedData = _.sortBy(dataList, function (row) {
-                var rowData = row.fields;
-                var sortedValue = null;
-                for (var i = 0; i < rowData.length; i++) {
-                    if (rowData[i].fieldName === sortField) {
-                        sortedValue = rowData[i].value;
-                        return sortedValue;
-                    }
-                }
-            });
-            return sortOrder === sortings[1] ? sortedData : sortedData.reverse();
-        }   // end of sortData
-
-        function modifyPaginationIcons() {
-            $('ul.pagination a:Contains("<<"):first').html("<i class='fa fa-angle-double-left page-arrow'></i>");
-            $('ul.pagination a:Contains(">>"):first').html("<i class='fa fa-angle-double-right page-arrow'></i>");
-            $('ul.pagination a:Contains("<"):first').html("<i class='fa fa-angle-left page-arrow'></i>");
-            $('ul.pagination a:Contains(">"):first').html("<i class='fa fa-angle-right page-arrow'></i>");
-        }
-
-        // Filtering
-        function showFilterModal(gridOptions, filters) {
-            var modalInstance = $modal.open({
-                templateUrl: 'rainModules/rainGrid/'+'/rainGridFilterModal/rainGridFilterModalTemplate.html',
+            else if (col.isBoolean) {
+                type = 'bool';
+            }
+            else if (col.isDate) {
+                type = 'date';
+            }
+            switch (type) {
+                case 'number':
+                    constraints = [
+                        RainGrid.FilterConstraint.Contains,
+                        RainGrid.FilterConstraint.GreaterThan,
+                        RainGrid.FilterConstraint.LessThan
+                    ];
+                    break;
+                case 'bool':
+                    constraints = [
+                        RainGrid.FilterConstraint.EqualsTo
+                    ];
+                    break;
+                case 'date':
+                    constraints = [
+                        RainGrid.FilterConstraint.EqualsTo,
+                        RainGrid.FilterConstraint.GreaterThan,
+                        RainGrid.FilterConstraint.LessThan
+                    ];
+                    break;
+                default:
+                    constraints = [
+                        RainGrid.FilterConstraint.EqualsTo,
+                        RainGrid.FilterConstraint.GreaterThan,
+                        RainGrid.FilterConstraint.LessThan,
+                        RainGrid.FilterConstraint.Contains,
+                        RainGrid.FilterConstraint.StartsWith
+                    ];
+            }
+            return constraints;
+        }; // end of getFilterConstraintsByColumnType
+        RainGridService.prototype.showFilterModal = function (gridOptions, filters) {
+            var modalInstance = this.$modal.open({
+                templateUrl: RainGrid.baseUrl + 'rainGridFilterModal/rainGridFilterModalTemplate.html',
                 controller: 'rainGrid.filterModal.controller',
                 resolve: {
                     columnDefs: function () {
@@ -167,67 +177,36 @@
                     }
                 }
             });
-
             return modalInstance.result;
             /*modalInstance.result.then(function (obj) {
              // return value from $modalInstance.close(obj)
              }, function () {
              });*/
-        }   // end of showFilterModal
-
-        function getFilterConstraintsByColumnType(col) {
-            var constraints = [];
-            var type = 'text';
-            if (col.isNumber || col.isCurrency) {
-                type = 'number';
-            } else if (col.isBoolean) {
-                type = 'bool';
-            } else if (col.isDate) {
-                type = 'date';
+        }; // end of showFilterModal
+        RainGridService.prototype.sortData = function (dataList, sortField, sortOrder) {
+            if (!sortField || sortOrder === SortingOptions.NONE) {
+                return dataList;
             }
-            switch (type) {
-                case 'number':
-                    constraints = [
-                        {label: 'equal to', value: 'EqualsTo'},
-                        {label: 'greater than', value: 'GreaterThan'},
-                        {label: 'less than', value: 'LessThan'}
-                    ];
-                    break;
-                case 'bool':
-                    constraints = [
-                        {label: 'equal to', value: 'EqualsTo'}
-                    ];
-                    break;
-                case 'date':
-                    constraints = [
-                        {label: 'equal to', value: 'EqualsTo'},
-                        {label: 'greater than', value: 'GreaterThan'},
-                        {label: 'less than', value: 'LessThan'}
-                    ];
-                    break;
-                default :
-                    constraints = [
-                        {label: 'equal to', value: 'EqualsTo'},
-                        {label: 'greater than', value: 'GreaterThan'},
-                        {label: 'less than', value: 'LessThan'},
-                        {label: 'Contains', value: 'Contains'},
-                        {label: 'starts with', value: 'StartsWith'}
-                    ];
-            }
-            return constraints;
-        }   // end of getFilterConstraintsByColumnType
-
-        function filterData(_dataRows, filters) {
-
+            var sortedData = _.sortBy(dataList, function (row) {
+                var rowData = row.fields;
+                var sortedValue = null;
+                for (var i = 0; i < rowData.length; i++) {
+                    if (rowData[i].field === sortField) {
+                        sortedValue = rowData[i].value;
+                        return sortedValue;
+                    }
+                }
+            });
+            return sortOrder === SortingOptions.ASC ? sortedData : sortedData.reverse();
+        }; // end of sortData
+        RainGridService.prototype.filterData = function (dataRows, filters) {
             var _dataList = [];
-
             // if there's not filter, just return the original data list
             if (filters.length === 0 || !filters[0].col) {
-                _dataList = _dataRows;
+                _dataList = dataRows;
                 return _dataList;
             }
-
-            _dataList = _.filter(_dataRows, function (row) {
+            _dataList = _.filter(dataRows, function (row) {
                 var rowData = row.fields;
                 var condition = true;
                 for (var i = 0; i < rowData.length; i++) {
@@ -237,21 +216,21 @@
                         var filteredField = filter.col.value;
                         var filterConstraint = filter.constraint.value;
                         var filterExpression = filter.expression;
-                        if (column.fieldName === filteredField) {
+                        if (column.field === filteredField) {
                             switch (filterConstraint) {
-                                case 'EqualsTo':
+                                case ConstraintType.EqualsTo:
                                     condition = condition && column.value == filterExpression;
                                     break;
-                                case 'GreaterThan':
+                                case ConstraintType.GreaterThan:
                                     condition = condition && column.value > filterExpression;
                                     break;
-                                case 'LessThan':
+                                case ConstraintType.LessThan:
                                     condition = condition && column.value < filterExpression;
                                     break;
-                                case 'Contains':
+                                case ConstraintType.Contains:
                                     condition = condition && column.value.indexOf(filterExpression) >= 0;
                                     break;
-                                case 'StartsWith':
+                                case ConstraintType.StartsWith:
                                     condition = condition && column.value.indexOf(filterExpression) === 0;
                                     break;
                             }
@@ -266,8 +245,12 @@
                 }
                 return condition;
             });
-
             return _dataList;
-        }   // end of filterData
-    }
-})();
+        }; // end of filterData
+        RainGridService.$inject = ['$parse', '$modal'];
+        return RainGridService;
+    })();
+    RainGrid.RainGridService = RainGridService;
+    angular.module('rainGrid').service('rainGridService', RainGridService);
+})(RainGrid || (RainGrid = {}));
+//# sourceMappingURL=rainGridService.js.map
