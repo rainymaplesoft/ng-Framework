@@ -6,6 +6,7 @@ var RainGrid;
 (function (RainGrid) {
     var rainGridController = (function () {
         function rainGridController($scope, $rootScope, rainGridService) {
+            var _this = this;
             this.$scope = $scope;
             this.$rootScope = $rootScope;
             this.rainGridService = rainGridService;
@@ -16,15 +17,11 @@ var RainGrid;
             this._currentSortField = null;
             this._isFiltered = false;
             this._dataRowsFiltered = [];
-            //this.$scope.gridOptions = {};
             this.$scope.$watch('rainGrid.data', function () {
-                this.activate();
+                _this.activate();
             });
             this.$scope.filterData = this.filterData;
             this.$scope.linkTo = this.linkTo;
-            this.$scope.pageSizeChanged = this.pageSizeChanged;
-            this.$scope.pageChanged = this.pageChanged;
-            this.$scope.sortingChanged = this.sortingChanged;
             this.$scope.selectRow = this.selectRow;
             this.$scope.deleteRecord = this.deleteRecord;
             this.$scope.editRecord = this.editRecord;
@@ -92,6 +89,7 @@ var RainGrid;
             }
         };
         rainGridController.prototype.initPage = function () {
+            var self = this;
             this.$scope.enablePage = this.$scope.gridOptions.enablePage;
             this.$scope.currentPage = 1;
             this.$scope.maxSize = 2;
@@ -104,7 +102,7 @@ var RainGrid;
             this.$scope.pageSize = this.$scope.pageSizes[1];
             if (this.$scope.gridOptions.pageSize) {
                 var pageSize = _.find(this.$scope.pageSizes, function (size) {
-                    return size.value == this.$scope.gridOptions.pageSize;
+                    return size.value == self.$scope.gridOptions.pageSize;
                 });
                 if (pageSize) {
                     this.$scope.pageSize = pageSize;
@@ -140,6 +138,7 @@ var RainGrid;
             this.getPageData(this._dataList);
         };
         rainGridController.prototype.getPageData = function (dataList) {
+            var self = this;
             if (!this.$scope.enablePage) {
                 this.$scope.list = dataList;
                 return this.$scope.list;
@@ -149,7 +148,7 @@ var RainGrid;
                 this.$scope.list = pagedDataList;
                 angular.forEach(this.$scope.list, function (row) {
                     if (row.rowSelected) {
-                        if (row != this.$scope.selectedRow) {
+                        if (row != self.$scope.selectedRow) {
                             row.rowSelected = false;
                         }
                     }

@@ -7,7 +7,7 @@ module RainGrid {
 
     }
 
-    export interface IPageSize{
+    export interface IPageSize {
         label:string,
         value:number
     }
@@ -59,7 +59,7 @@ module RainGrid {
             rainGrid: '='
         };
         controller = 'rainGrid.controller';
-
+        controllerAs = 'vm';
     }
 
     //factory.$inject = ['$timeout'];

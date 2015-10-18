@@ -53,11 +53,11 @@ crashlytics-build.properties
 /bower_components
 
 #project distribution folder
-#/dist
+/dist
 
 #temporary folders
 /tmp
 rainModules/tmp
 
-# Deployment folder
-z_gh-pages
+#TypeScript type definitions
+typings

@@ -13,16 +13,12 @@ module RainGrid {
         constructor(private $scope:IRainGridScope, private $rootScope:ng.IRootScopeService,
                     private rainGridService:IRainGridService<T>) {
 
-            //this.$scope.gridOptions = {};
-            this.$scope.$watch('rainGrid.data', function () {
+            this.$scope.$watch('rainGrid.data',  ()=> {
                 this.activate();
             });
 
             this.$scope.filterData = this.filterData;
             this.$scope.linkTo = this.linkTo;
-            this.$scope.pageSizeChanged = this.pageSizeChanged;
-            this.$scope.pageChanged = this.pageChanged;
-            this.$scope.sortingChanged = this.sortingChanged;
             this.$scope.selectRow = this.selectRow;
             this.$scope.deleteRecord = this.deleteRecord;
             this.$scope.editRecord = this.editRecord;
@@ -105,6 +101,7 @@ module RainGrid {
         }
 
         initPage():void {
+            var self =this;
             this.$scope.enablePage = this.$scope.gridOptions.enablePage;
             this.$scope.currentPage = 1;
             this.$scope.maxSize = 2;
@@ -117,7 +114,7 @@ module RainGrid {
             this.$scope.pageSize = this.$scope.pageSizes[1];
             if (this.$scope.gridOptions.pageSize) {
                 var pageSize = _.find(this.$scope.pageSizes, function (size) {
-                    return size.value == this.$scope.gridOptions.pageSize;
+                    return size.value == self.$scope.gridOptions.pageSize;
                 });
                 if (pageSize) {
                     this.$scope.pageSize = pageSize;
@@ -164,6 +161,7 @@ module RainGrid {
         }
 
         getPageData(dataList:Array<IGridRow>):Array<IGridRow> {
+            var self = this;
             if (!this.$scope.enablePage) {
                 this.$scope.list = dataList;
                 return this.$scope.list;
@@ -175,7 +173,7 @@ module RainGrid {
                 this.$scope.list = pagedDataList;
                 angular.forEach(this.$scope.list, function (row) {
                     if (row.rowSelected) {
-                        if (row != this.$scope.selectedRow) {
+                        if (row != self.$scope.selectedRow) {
                             row.rowSelected = false;
                         }
                     }

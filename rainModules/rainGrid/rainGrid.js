@@ -11,6 +11,7 @@ var RainGrid;
                 rainGrid: '='
             };
             this.controller = 'rainGrid.controller';
+            this.controllerAs = 'vm';
         }
         return RainGrid;
     })();
