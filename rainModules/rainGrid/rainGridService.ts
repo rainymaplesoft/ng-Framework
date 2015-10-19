@@ -274,10 +274,13 @@ module RainGrid {
             });
 
             return modalInstance.result;
-            /*modalInstance.result.then(function (obj) {
-             // return value from $modalInstance.close(obj)
+            /**
+             var modalInstance = rainGridService.showFilterModal(gridOptions, filters);
+             modalInstance.then(function (obj) {
+                return value from $modalInstance.close(obj)
              }, function () {
-             });*/
+             });
+             **/
         }   // end of showFilterModal
 
         sortData(dataList:Array<IGridRow>, sortField:string, sortOrder:SortingOptions):Array<IGridRow> {

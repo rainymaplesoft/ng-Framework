@@ -178,10 +178,13 @@ var RainGrid;
                 }
             });
             return modalInstance.result;
-            /*modalInstance.result.then(function (obj) {
-             // return value from $modalInstance.close(obj)
+            /**
+             var modalInstance = rainGridService.showFilterModal(gridOptions, filters);
+             modalInstance.then(function (obj) {
+                return value from $modalInstance.close(obj)
              }, function () {
-             });*/
+             });
+             **/
         }; // end of showFilterModal
         RainGridService.prototype.sortData = function (dataList, sortField, sortOrder) {
             if (!sortField || sortOrder === SortingOptions.NONE) {
