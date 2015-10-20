@@ -12,7 +12,7 @@
                 <div class="clearfix">
 
                     <div class="pull-left" ng-if="showToolMenu">
-                        <div rain-grid-menu filter-data="filterData(filters)" grid-options="gridOptions"></div>
+                        <div rain-grid-menu filter-data="vm.filterData(filters)" grid-options="gridOptions"></div>
                     </div>
                 </div>
             </div>
@@ -31,7 +31,7 @@
                     </span>
                 </th>
             </tr>
-            <tr ng-repeat="row in list" ng-click="selectRow(row)" ng-class="{'row-selected':row.rowSelected}">
+            <tr ng-repeat="row in list" ng-click="vm.selectRow(row)" ng-class="{'row-selected':row.rowSelected}">
                 <td ng-repeat="field in row.fields" ng-if="!field.isHidden">
                     <div>
                         <div style="display: inline;" ng-class="{'cell-center':field.isButton}"
@@ -45,14 +45,14 @@
                              is-icon="field.isIcon"
                              is-hidden="field.isHidden"
                              decimal="field.decimal"
-                             func-link="linkTo(row.rowData,field.linkFunc.funcEvent,field.linkFunc.funcIdField)">
+                             func-link="vm.linkTo(row.fields,field.linkFunc.funcEvent,field.linkFunc.funcIdField)">
                             <!--{{field.value}}-->
                         </div>
                         <div class="pull-right fa fa-remove action-button" style="margin: 0;"
-                             ng-if="showDeleteButton && field.order == actionButtonPlace" ng-click="deleteRecord(row)">
+                             ng-if="showDeleteButton && field.order == actionButtonPlace" ng-click="vm.deleteRecord(row)">
                         </div>
                         <div class="pull-right fa fa-pencil-square-o action-button" style="margin: 0;"
-                             ng-if="showEditButton && field.order == actionButtonPlace" ng-click="editRecord(row)">
+                             ng-if="showEditButton && field.order == actionButtonPlace" ng-click="vm.editRecord(row)">
                         </div>
                     </div>
             </tr>

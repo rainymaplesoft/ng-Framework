@@ -4,14 +4,14 @@
            dropdown-toggle ng-disabled="disabled"></i>
         <ul class="dropdown-menu" role="menu" >
             <li>
-                <a ng-click="doFilter()">
+                <a ng-click="vm.doFilter()">
                     <i class="glyphicon glyphicon-filter menu-item-icon" style="margin-right: 5px;color: #337AB7;"></i>
 
                     <div style="display: inline-block;">Filter</div>
                 </a>
             </li>
             <li ng-if="hasFiltered">
-                <a href="#" ng-click="removeFilters()">
+                <a href="#" ng-click="vm.removeFilters()">
                     <i class="fa fa-times menu-item-icon" ></i>
 
                     <div style="display: inline-block;">Remove Filters</div>

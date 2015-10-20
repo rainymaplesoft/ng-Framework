@@ -14,9 +14,12 @@ var rain;
                         var splitArray = String(newValue).split("");
                         if (splitArray.length === 0)
                             return;
-                        if (splitArray.length === 1 && (splitArray[0] == '-' || splitArray[0] === '.'))
+                        if (splitArray.length === 1
+                            && (splitArray[0] == '-'
+                                || splitArray[0] === '.'))
                             return;
-                        if (splitArray.length === 2 && newValue === '-.')
+                        if (splitArray.length === 2
+                            && newValue === '-.')
                             return;
                         if (splitArray.indexOf('.') > 0) {
                             var decimal = attrs['numberOnly'];

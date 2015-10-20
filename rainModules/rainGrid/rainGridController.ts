@@ -11,9 +11,9 @@ module RainGrid {
         static $inject = ['$scope', '$rootScope', 'rainGridService'];
 
         constructor(private $scope:IRainGridScope, private $rootScope:ng.IRootScopeService,
-                    private rainGridService:IRainGridService<T>) {
+                    private rainGridService:IRainGridService) {
 
-            this.$scope.$watch('rainGrid.data',  ()=> {
+            this.$scope.$watch('rainGrid.data', ()=> {
                 this.activate();
             });
 
@@ -101,7 +101,7 @@ module RainGrid {
         }
 
         initPage():void {
-            var self =this;
+            var self = this;
             this.$scope.enablePage = this.$scope.gridOptions.enablePage;
             this.$scope.currentPage = 1;
             this.$scope.maxSize = 2;
@@ -205,12 +205,12 @@ module RainGrid {
             }
         }
 
-        pageSizeChanged (pageSize:number) :void{
+        pageSizeChanged(pageSize:number):void {
             this.$scope.currentPage = 1;
             this.getPageData(this._dataList);
         }
 
-        pageChanged ():void {
+        pageChanged():void {
             this.getPageData(this._dataList);
         }
 
@@ -218,13 +218,13 @@ module RainGrid {
             var sortingOption = SortingOptions.NONE;
             if (this._currentSortField !== sortField) {
                 this._currentSortIndex = 1;
-                sortingOption=SortingOptions.ASC;
+                sortingOption = SortingOptions.ASC;
             } else {
                 this._currentSortIndex = this._currentSortIndex + 1;
-                sortingOption=SortingOptions.DSC;
+                sortingOption = SortingOptions.DSC;
                 if (this._currentSortIndex > 2) {
                     this._currentSortIndex = 0;
-                    sortingOption=SortingOptions.NONE;
+                    sortingOption = SortingOptions.NONE;
                 }
             }
             this._currentSortField = sortField;
@@ -236,27 +236,27 @@ module RainGrid {
             this.getPageData(this._dataList);
         }
 
-       selectRow (row:IGridRow):void {
-            if (!this.$scope.selectable) {
-                return;
-            }
-            var isSelected = row.rowSelected;
-            angular.forEach(this.$scope.list, function (row:IGridRow) {
-                row.rowSelected = false;
-            });
-            row.rowSelected = !isSelected;
-            if (row.rowSelected) {
-                this.$scope.selectedRow = row;
-            }
-            if (row.rowSelected && this.$scope.gridOptions.rowSelectedEvent) {
-                var funcEvent = this.$scope.gridOptions.rowSelectedEvent.funcEvent;
-                this.$rootScope.$broadcast(funcEvent, {id: row.id});
-            }
-        }
+        selectRow(row:IGridRow) {
+                if (!this.$scope.selectable) {
+                    return;
+                }
+                var isSelected = row.rowSelected;
+                angular.forEach(this.$scope.list, function (row:IGridRow) {
+                    row.rowSelected = false;
+                });
+                row.rowSelected = !isSelected;
+                if (row.rowSelected) {
+                    this.$scope.selectedRow = row;
+                }
+                if (row.rowSelected && this.$scope.gridOptions.rowSelectedEvent) {
+                    var funcEvent = this.$scope.gridOptions.rowSelectedEvent.funcEvent;
+                    this.$rootScope.$broadcast(funcEvent, {id: row.id});
+                }
 
-        deleteRecord (row:IGridRow):void {
+        }
+        deleteRecord(row:IGridRow):void {
             if (this.$scope.deleteEvent && this.$scope.deleteEventIdField) {
-                var field = _.find(row.fields, function (col) {
+                var field = _.find(row.fields, (col)=> {
                     return col.field == this.$scope.deleteEventIdField;
                 });
                 if (field) {
@@ -266,9 +266,9 @@ module RainGrid {
             }
         }
 
-        editRecord (row:IGridRow):void {
+        editRecord(row:IGridRow):void {
             if (this.$scope.editEvent && this.$scope.editEventIdField) {
-                var field = _.find(row.fields, function (col) {
+                var field = _.find(row.fields,  (col)=> {
                     return col.field == this.$scope.editEventIdField;
                 });
                 if (field) {

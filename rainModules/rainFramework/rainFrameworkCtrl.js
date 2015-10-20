@@ -33,7 +33,7 @@ var rain;
                 };
                 // setup events
                 this.setupEvents();
-                // avoid from running within the digest cycle, wrap it in $timeout with delay=0
+                // avoid from running within the digest cycle, wrap it in $timeout with delay = 0
                 $timeout(function () {
                     _this.checkWidth();
                 }, 0);

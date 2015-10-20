@@ -2,25 +2,25 @@
     <div class="well well-sm">
         <div class="row filter-row">
                 <div class="col-sm-4">
-                    <select class="form-control input-sm" ng-model="filter.col" ng-change="columnChanged(filter.col)"
-                            ng-options="colDef as colDef.label for colDef in columns">
+                    <select class="form-control input-sm" ng-model="vm.filter.col" ng-change="vm.columnChanged(filter.col)"
+                            ng-options="colDef as colDef.label for colDef in vm.columns">
                     </select>
                 </div>
                 <div class="col-sm-3">
-                    <select class="form-control input-sm" ng-model="filter.constraint"
-                            ng-options="con as con.label for con in constraints">
+                    <select class="form-control input-sm" ng-model="vm.filter.constraint"
+                            ng-options="con as con.label for con in vm.constraints">
                     </select>
                 </div>
-                <div class="col-sm-3" ng-if="!isBool">
+                <div class="col-sm-3" ng-if="!vm.isBool">
                     <input type="text" class="form-control input-sm" ng-model="filter.expression">
                 </div>
-                <div class="col-sm-3" ng-if="isBool">
-                    <select class="form-control input-sm" ng-model="filter.expression"
-                            ng-options="bool.value as bool.label for bool in boolValues">
+                <div class="col-sm-3" ng-if="vm.isBool">
+                    <select class="form-control input-sm" ng-model="vm.filter.expression"
+                            ng-options="bool.value as bool.label for bool in vm.boolValues">
                     </select>
                 </div>
                 <div class="col-sm-1" style="padding-top: 3px;">
-                    <button class="btn btn-warning btn-xs" ng-click="removeFilter(filter.col)">
+                    <button class="btn btn-warning btn-xs" ng-click="vm.removeFilter(filter.col)">
                         <i class="glyphicon glyphicon-minus"></i>
                     </button>
                 </div>

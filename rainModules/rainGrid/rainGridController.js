@@ -221,9 +221,10 @@ var RainGrid;
             }
         };
         rainGridController.prototype.deleteRecord = function (row) {
+            var _this = this;
             if (this.$scope.deleteEvent && this.$scope.deleteEventIdField) {
                 var field = _.find(row.fields, function (col) {
-                    return col.field == this.$scope.deleteEventIdField;
+                    return col.field == _this.$scope.deleteEventIdField;
                 });
                 if (field) {
                     var deleteEventIdField = field.value;
@@ -232,9 +233,10 @@ var RainGrid;
             }
         };
         rainGridController.prototype.editRecord = function (row) {
+            var _this = this;
             if (this.$scope.editEvent && this.$scope.editEventIdField) {
                 var field = _.find(row.fields, function (col) {
-                    return col.field == this.$scope.editEventIdField;
+                    return col.field == _this.$scope.editEventIdField;
                 });
                 if (field) {
                     var editEventIdField = field.value;

@@ -5,7 +5,7 @@ module RainGrid {
 
     export enum SortingOptions {NONE, ASC, DSC}
 
-    export enum ConstraintType{EqualsTo, GreaterThan, LessThan, Contains, StartsWith}
+    /*export enum ConstraintType{EqualsTo, GreaterThan, LessThan, Contains, StartsWith}*/
 
     export var FilterConstraint = {
         EqualsTo: {label: 'equal to', value: 'EqualsTo'},
@@ -16,17 +16,17 @@ module RainGrid {
     };
 
     export interface IConstraint {
-        label:string,
-        value:ConstraintType
+        label?:string,
+        value?:any
     }
 
     export interface IFilterColumn {
-        label: string,
-        value: any,
-        isNumber: boolean,
-        isCurrency: boolean,
-        isBoolean: boolean,
-        isDate: boolean
+        label?: string,
+        value?: any,
+        isNumber?: boolean,
+        isCurrency?: boolean,
+        isBoolean?: boolean,
+        isDate?: boolean
     }
 
     export interface IGridFilter {
@@ -44,6 +44,7 @@ module RainGrid {
         isNumber?:boolean,
         decimal?:number,
         isCheckbox?:boolean,
+        isBoolean?:boolean,
         isButton?:boolean,
         isIcon?:boolean,
         isDate?:boolean,
@@ -101,16 +102,16 @@ module RainGrid {
         rowSelectedEvent:IRowSelectedEvent
     }
 
-    export interface IRainGridService <T> {
+    export interface IRainGridService {
         setPaginationIcons():void;
         getDataListByPage(dataList:Array<any>, page:number, pageSize:number):Array<IGridRow>;
         buildGridData(gridOptions:IGridOptions):IGridData;
         getFilterConstraintsByColumnType(col:IFilterColumn):Array<IConstraint>
-        showFilterModal(gridOptions:IGridOptions, filters:IGridFilter):ng.IPromise<any>;
+        showFilterModal(gridOptions:IGridOptions, filters:Array<IGridFilter>):ng.IPromise<any>;
         sortData(dataList:Array<any>, sortField:string, sortOrder:SortingOptions):Array<IGridRow>
         filterData(dataRows:Array<IGridRow>, filters:Array<IGridFilter>):Array<IGridRow>;
     }
-    export class RainGridService<T> implements IRainGridService<T> {
+    export class RainGridService<T> implements IRainGridService {
 
         static $inject = ['$parse', '$modal'];
 
@@ -190,7 +191,8 @@ module RainGrid {
                         var gridData:IField = {
                             id: rowData[gridOptions.idField],
                             field: col.field,
-                            value: rowData[col.field] || col.field,
+                            value: (rowData[col.field] === null || rowData[col.field] === undefined)
+                                ? '' : rowData[col.field],
                             displayName: col.displayName,
                             isCheckbox: col.isCheckbox,
                             isCurrency: col.isCurrency,
@@ -207,7 +209,7 @@ module RainGrid {
                         fields.push(gridData);
                     }
                 }
-                var gridRow:IGridRow = {fields: fields, rowSelected: false, idField: 'idField', id: 'id'};
+                var gridRow:IGridRow = {fields: fields, rowSelected: false, idField: idField, id: id};
                 return gridRow;
             });
             if (gridOptions.selectFirstRow && gridList.rows.length > 0) {
@@ -259,10 +261,11 @@ module RainGrid {
             return constraints;
         }   // end of getFilterConstraintsByColumnType
 
-        showFilterModal(gridOptions:IGridOptions, filters:IGridFilter):ng.IPromise<any> {
+        showFilterModal(gridOptions:IGridOptions, filters:Array<IGridFilter>):ng.IPromise<any> {
             var modalInstance = this.$modal.open({
                 templateUrl: baseUrl + 'rainGridFilterModal/rainGridFilterModalTemplate.html',
                 controller: 'rainGrid.filterModal.controller',
+                controllerAs: 'vm',
                 resolve: {
                     columnDefs: function () {
                         return gridOptions.columnDefs;
@@ -323,19 +326,19 @@ module RainGrid {
                         var filterExpression = filter.expression;
                         if (column.field === filteredField) {
                             switch (filterConstraint) {
-                                case ConstraintType.EqualsTo:
+                                case FilterConstraint.EqualsTo.value:
                                     condition = condition && column.value == filterExpression;
                                     break;
-                                case ConstraintType.GreaterThan:
+                                case FilterConstraint.GreaterThan.value:
                                     condition = condition && column.value > filterExpression;
                                     break;
-                                case ConstraintType.LessThan:
+                                case FilterConstraint.LessThan.value:
                                     condition = condition && column.value < filterExpression;
                                     break;
-                                case ConstraintType.Contains:
+                                case FilterConstraint.Contains.value:
                                     condition = condition && column.value.indexOf(filterExpression) >= 0;
                                     break;
-                                case ConstraintType.StartsWith:
+                                case FilterConstraint.StartsWith.value:
                                     condition = condition && column.value.indexOf(filterExpression) === 0;
                                     break;
                             }

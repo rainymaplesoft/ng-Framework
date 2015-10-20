@@ -35,30 +35,33 @@ var rainService;
                 this.$rootScope = $rootScope;
                 this.$location = $location;
                 // Interceptors convention, return an object with 'responseError' property
-                this.responseError = this.funcResponseError;
+                //this.responseError = this.funcResponseError;
+                this.responseError = this.funcResponseError(this.$q, this.$rootScope, this.$location);
             }
-            LoginRedirect.prototype.funcResponseError = function (response) {
-                if (response.status == 401 || response.status == 403) {
-                    // controller of application level should handle this event
-                    this.$rootScope.$broadcast('AUTHENTICATION_EVENT', {
-                        // show error message according to the status code
-                        statusCode: response.status,
-                        // can be redirected to this path after authenticated
-                        requestedPath: this.$location.path(),
-                        // for debug
-                        eventSource: 'rainService.loginRedirect.responseError'
-                    });
-                }
-                return this.$q.reject(response);
+            LoginRedirect.prototype.funcResponseError = function ($q, $rootScope, $location) {
+                return function (response) {
+                    if (response.status == 401 || response.status == 403) {
+                        // controller of application level should handle this event
+                        $rootScope.$broadcast('AUTHENTICATION_EVENT', {
+                            // show error message according to the status code
+                            statusCode: response.status,
+                            // can be redirected to this path after authenticated
+                            requestedPath: $location.path(),
+                            // for debug
+                            eventSource: 'rainService.loginRedirect.responseError'
+                        });
+                    }
+                    return $q.reject(response);
+                };
             };
             return LoginRedirect;
         })();
-        factoryLoginRedirect.$inject = ['$q', 'rainService.currentUser'];
+        factoryLoginRedirect.$inject = ['$q', '$rootScope', '$location'];
         function factoryLoginRedirect($q, $rootScope, $location) {
             return new LoginRedirect($q, $rootScope, $location);
         }
         module.factory('rainService.loginRedirect', factoryLoginRedirect);
-        // -- interceptors --//
+        // -- interceptors -- //
         // about interceptor -- https://docs.angularjs.org/api/ng/service/$http
         module.config(function ($httpProvider) {
             $httpProvider.interceptors.push('rainService.addToken');
@@ -70,65 +73,65 @@ var rainService;
 })(rainService || (rainService = {}));
 /*
 
-(function () {
-    var module = angular.module('rainService');
+ (function () {
+ var module = angular.module('rainService');
 
-    // -- service: addToken -- //
+ // --- service: addToken --- //
 
-    module.factory('rainService.addToken', ['$q', 'rainService.currentUser', addToken]);
+ module.factory('rainService.addToken', ['$q', 'rainService.currentUser', addToken]);
 
-    function addToken($q, currentUser) {
+ function addToken($q, currentUser) {
 
-        var request = function (config) {
-            if (currentUser.profile.loggedIn) {
-                config.headers.Authorization = 'Bearer ' + currentUser.profile.token;
-            }
-            return $q.when(config);
-        };
-        return {
-            request: request
-        }
-    }
+ var request = function (config) {
+ if (currentUser.profile.loggedIn) {
+ config.headers.Authorization = 'Bearer ' + currentUser.profile.token;
+ }
+ return $q.when(config);
+ };
+ return {
+ request: request
+ }
+ }
 
-    // -- service: loginRedirect -- //
+ // -- service: loginRedirect -- //
 
-    module.factory('rainService.loginRedirect', ['$q', '$rootScope', '$location', loginRedirect]);
+ module.factory('rainService.loginRedirect', ['$q', '$rootScope', '$location', loginRedirect]);
 
-    function loginRedirect($q, $rootScope, $location) {
+ function loginRedirect($q, $rootScope, $location) {
 
-        var responseError = function (response) {
-            if (response.status == 401 || response.status == 403) {
+ var responseError = function (response) {
+ if (response.status == 401 || response.status == 403) {
 
-                // controller of application level should handle this event
-                $rootScope.$broadcast('AUTHENTICATION_EVENT', {
-                    // show error message according to the status code
-                    statusCode: response.status,
-                    // can be redirected to this path after authenticated
-                    requestedPath: $location.path(),
-                    // for debug
-                    eventSource:'rainService.loginRedirect.responseError'
-                });
-            }
-            return $q.reject(response);
-        };
+ // controller of application level should handle this event
+ $rootScope.$broadcast('AUTHENTICATION_EVENT', {
+ // show error message according to the status code
+ statusCode: response.status,
+ // can be redirected to this path after authenticated
+ requestedPath: $location.path(),
+ // for debug
+ eventSource:'rainService.loginRedirect.responseError'
+ });
+ }
+ return $q.reject(response);
+ };
 
-        // Interceptors convention, return a 'responseError' property
-        return {
-            responseError: responseError
-        }
-    }
+ // Interceptors convention, return a 'responseError' property
+ return {
+ responseError: responseError
+ }
+ }
 
 
 
-    // -- interceptors --//
-    // about interceptor -- https://docs.angularjs.org/api/ng/service/$http
+ // -- interceptors --//
+ // about interceptor -- https://docs.angularjs.org/api/ng/service/$http
 
-    module.config(function ($httpProvider) {
-        $httpProvider.interceptors.push('rainService.addToken');
-    });
-    module.config(function ($httpProvider) {
-        $httpProvider.interceptors.push('rainService.loginRedirect');
-    });
-})();
-*/
+ module.config(function ($httpProvider) {
+ $httpProvider.interceptors.push('rainService.addToken');
+ });
+ module.config(function ($httpProvider) {
+ $httpProvider.interceptors.push('rainService.loginRedirect');
+ });
+ })();
+ */
 //# sourceMappingURL=rainServiceHttpInterceptor.js.map

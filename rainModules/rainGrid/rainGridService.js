@@ -8,14 +8,7 @@ var RainGrid;
         SortingOptions[SortingOptions["DSC"] = 2] = "DSC";
     })(RainGrid.SortingOptions || (RainGrid.SortingOptions = {}));
     var SortingOptions = RainGrid.SortingOptions;
-    (function (ConstraintType) {
-        ConstraintType[ConstraintType["EqualsTo"] = 0] = "EqualsTo";
-        ConstraintType[ConstraintType["GreaterThan"] = 1] = "GreaterThan";
-        ConstraintType[ConstraintType["LessThan"] = 2] = "LessThan";
-        ConstraintType[ConstraintType["Contains"] = 3] = "Contains";
-        ConstraintType[ConstraintType["StartsWith"] = 4] = "StartsWith";
-    })(RainGrid.ConstraintType || (RainGrid.ConstraintType = {}));
-    var ConstraintType = RainGrid.ConstraintType;
+    /*export enum ConstraintType{EqualsTo, GreaterThan, LessThan, Contains, StartsWith}*/
     RainGrid.FilterConstraint = {
         EqualsTo: { label: 'equal to', value: 'EqualsTo' },
         GreaterThan: { label: 'greater than', value: 'GreaterThan' },
@@ -96,7 +89,8 @@ var RainGrid;
                         var gridData = {
                             id: rowData[gridOptions.idField],
                             field: col.field,
-                            value: rowData[col.field] || col.field,
+                            value: (rowData[col.field] === null || rowData[col.field] === undefined)
+                                ? '' : rowData[col.field],
                             displayName: col.displayName,
                             isCheckbox: col.isCheckbox,
                             isCurrency: col.isCurrency,
@@ -113,7 +107,7 @@ var RainGrid;
                         fields.push(gridData);
                     }
                 }
-                var gridRow = { fields: fields, rowSelected: false, idField: 'idField', id: 'id' };
+                var gridRow = { fields: fields, rowSelected: false, idField: idField, id: id };
                 return gridRow;
             });
             if (gridOptions.selectFirstRow && gridList.rows.length > 0) {
@@ -168,6 +162,7 @@ var RainGrid;
             var modalInstance = this.$modal.open({
                 templateUrl: RainGrid.baseUrl + 'rainGridFilterModal/rainGridFilterModalTemplate.html',
                 controller: 'rainGrid.filterModal.controller',
+                controllerAs: 'vm',
                 resolve: {
                     columnDefs: function () {
                         return gridOptions.columnDefs;
@@ -221,19 +216,19 @@ var RainGrid;
                         var filterExpression = filter.expression;
                         if (column.field === filteredField) {
                             switch (filterConstraint) {
-                                case ConstraintType.EqualsTo:
+                                case RainGrid.FilterConstraint.EqualsTo.value:
                                     condition = condition && column.value == filterExpression;
                                     break;
-                                case ConstraintType.GreaterThan:
+                                case RainGrid.FilterConstraint.GreaterThan.value:
                                     condition = condition && column.value > filterExpression;
                                     break;
-                                case ConstraintType.LessThan:
+                                case RainGrid.FilterConstraint.LessThan.value:
                                     condition = condition && column.value < filterExpression;
                                     break;
-                                case ConstraintType.Contains:
+                                case RainGrid.FilterConstraint.Contains.value:
                                     condition = condition && column.value.indexOf(filterExpression) >= 0;
                                     break;
-                                case ConstraintType.StartsWith:
+                                case RainGrid.FilterConstraint.StartsWith.value:
                                     condition = condition && column.value.indexOf(filterExpression) === 0;
                                     break;
                             }
