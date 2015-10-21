@@ -17,7 +17,7 @@
 
         function activate() {
             vm.gridOptions = setGridOptions();
-            var employeeData = repositoryService.getDataList(dbEntityConfig.entities.employee);
+            var employeeData = repositoryService.getDataList(dbEntityConfig.EntityApi.employee);
 
             vm.gridOptions.data = employeeData;
             employeeData.then(function (data) {

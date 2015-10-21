@@ -1,3 +1,4 @@
+/*
 (function () {
     var app=angular.module('rainGrid', []);
 
@@ -8,4 +9,4 @@
 
     //app.value("rainGridConfig", config);
 
-})();
+})();*/

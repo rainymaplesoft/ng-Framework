@@ -13,7 +13,7 @@
         // controller functions
 
         function activate() {
-            repositoryService.getDataList(dbEntityConfig.entities.order).then(function (data) {
+            repositoryService.getDataList(dbEntityConfig.EntityApi.order).then(function (data) {
                 if (data.length == 0) {
                     console.log("report data is empty");
                     return;

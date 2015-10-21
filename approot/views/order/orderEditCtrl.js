@@ -16,7 +16,7 @@
 
         var _orderId = $stateParams.orderId;
         var _message = commonService.showMessage;
-        var _entityOrder = dbEntityConfig.entities.order;
+        var _entityOrder = dbEntityConfig.EntityApi.order;
         $scope.order = {
             customer: '', shipName: '', shipCountry: '', freight: '', shippedDate: '', requiredDate: '',
             orderDate: '', shipAddress: '', shipCity: ''
@@ -74,11 +74,11 @@
         }
 
         function getLookupDataPromises() {
-            var p1 = repositoryService.getDataList(dbEntityConfig.entities.customer)
+            var p1 = repositoryService.getDataList(dbEntityConfig.EntityApi.customer)
                 .then(function (data) {
                     $scope.customers = data;
                 });
-            var p2 = repositoryService.getDataList(dbEntityConfig.entities.country)
+            var p2 = repositoryService.getDataList(dbEntityConfig.EntityApi.country)
                 .then(function (data) {
                     $scope.countries = data;
                 });

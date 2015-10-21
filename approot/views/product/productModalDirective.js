@@ -18,7 +18,7 @@
         };
 
         function controller($scope) {
-            repositoryService.getDataById(dbEntityConfig.entities.product, $scope.productId).then(function (data) {
+            repositoryService.getDataById(dbEntityConfig.EntityApi.product, $scope.productId).then(function (data) {
                 $scope.product = data[0];
             });
         }

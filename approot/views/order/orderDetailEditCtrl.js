@@ -13,7 +13,7 @@
     function orderDetailEditCtrl($scope, $q, $stateParams, repositoryService, dbEntityConfig, commonService) {
 
         var _orderId = $stateParams.orderId;
-        var _entityOrderDetail = dbEntityConfig.entities.editOrderDetail;
+        var _entityOrderDetail = dbEntityConfig.EntityApi.editOrderDetail;
         var _message = commonService.showMessage;
 
         $scope.eventEdit = 'orderDetailEditCtrl.eventEdit';
@@ -48,7 +48,7 @@
         }
 
         function getLookupDataPromises() {
-            var p1 = repositoryService.getDataList(dbEntityConfig.entities.product)
+            var p1 = repositoryService.getDataList(dbEntityConfig.EntityApi.product)
                 .then(function (data) {
                     $scope.products = data;
                 });

@@ -13,8 +13,8 @@
 
     function permissionCtrl($scope, northWindRequests, commonService, repositoryService, dbEntityConfig, dialogService) {
 
-        var _entityUser = dbEntityConfig.entities.user;
-        var _entityRole = dbEntityConfig.entities.role;
+        var _entityUser = dbEntityConfig.EntityApi.user;
+        var _entityRole = dbEntityConfig.EntityApi.role;
         var _message = commonService.showMessage;
         $scope.permissions = null;
         $scope.roles = null;

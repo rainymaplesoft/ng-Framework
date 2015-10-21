@@ -176,9 +176,9 @@ var RainGrid;
             /**
              var modalInstance = rainGridService.showFilterModal(gridOptions, filters);
              modalInstance.then(function (obj) {
-                return value from $modalInstance.close(obj)
-             }, function () {
-             });
+            return value from $modalInstance.close(obj)
+         }, function () {
+         });
              **/
         }; // end of showFilterModal
         RainGridService.prototype.sortData = function (dataList, sortField, sortOrder) {

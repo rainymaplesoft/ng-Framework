@@ -13,7 +13,7 @@
 
         function activate() {
             vm.gridOptions = setGridOptions();
-            vm.gridOptions.data = repositoryService.getDataList(dbEntityConfig.entities.territory);
+            vm.gridOptions.data = repositoryService.getDataList(dbEntityConfig.EntityApi.territory);
         }
 
     }

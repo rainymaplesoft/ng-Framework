@@ -1,3 +1,4 @@
+/*
 (function () {
     angular.module('rainGrid').controller('rainGrid.filterInput.controller',
         ['$scope', 'rainGridService', rainGridFilterInputCtrl]);
@@ -60,4 +61,4 @@
             $scope.boolValues = [{label: 'true', value: true}, {label: 'false', value: false}];
         }
     }
-})();
+})();*/

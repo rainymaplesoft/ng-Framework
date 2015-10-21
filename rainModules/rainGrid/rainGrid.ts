@@ -4,7 +4,7 @@
 module RainGrid {
 
     export interface IScopeGridOptions extends IGridOptions {
-
+        data:ng.IPromise<any>
     }
 
     export interface IPageSize {

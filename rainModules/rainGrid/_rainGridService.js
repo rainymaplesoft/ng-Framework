@@ -1,3 +1,4 @@
+/*
 (function () {
     angular.module('rainGrid').factory('rainGridService',
         [
@@ -7,7 +8,7 @@
             , rainGridService
         ]);
 
-    function rainGridService($parse, $modal /*,rainGridConfig*/) {
+    function rainGridService($parse, $modal /!*,rainGridConfig*!/) {
         //var baseUrl = rainGridConfig.baseUrl;
         return {
             //baseUrl: baseUrl,
@@ -23,7 +24,7 @@
 
         // Service Functions
 
-        /*
+        /!*
         function rainGridLinkFunc(params, linkFunctions) {
             var field = _.find(params.row, function (col) {
                 return col.fieldName === params.funcIdField;
@@ -35,7 +36,7 @@
                 parseFunc(linkFunctions);
             }
         }
-*/
+*!/
         function getDataListByPage(dataList, page, pageSize) {
             // page starts with 1
             if (!dataList || page <= 0) {
@@ -169,10 +170,10 @@
             });
 
             return modalInstance.result;
-            /*modalInstance.result.then(function (obj) {
+            /!*modalInstance.result.then(function (obj) {
              // return value from $modalInstance.close(obj)
              }, function () {
-             });*/
+             });*!/
         }   // end of showFilterModal
 
         function getFilterConstraintsByColumnType(col) {
@@ -271,3 +272,4 @@
         }   // end of filterData
     }
 })();
+*/

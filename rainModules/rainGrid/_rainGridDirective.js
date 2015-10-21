@@ -1,3 +1,4 @@
+/*
 (function () {
     angular.module('rainGrid').directive('rainGrid', [rainGridDirective]);
 
@@ -14,3 +15,4 @@
         };
     }   // end of rainGrid
 })();
+*/

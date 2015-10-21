@@ -12,7 +12,7 @@
 
         function activate() {
             $scope.gridOptions = setGridOptions();
-            $scope.gridOptions.data = repositoryService.getDataList(dbEntityConfig.entities.supplier);
+            $scope.gridOptions.data = repositoryService.getDataList(dbEntityConfig.EntityApi.supplier);
         }
 
     }

@@ -23,7 +23,7 @@
 
         function activate() {
             vm.gridOptions = setGridOptions();
-            vm.gridOptions.data = repositoryService.getDataList(dbEntityConfig.entities.order);
+            vm.gridOptions.data = repositoryService.getDataList(dbEntityConfig.EntityApi.order);
             vm.gridOptions.data.then(function (data) {
                 if (data.length > 0) {
                     vm.orderId = data[0].OrderID;

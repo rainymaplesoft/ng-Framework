@@ -36,11 +36,13 @@ module RainGrid {
         activate():void {
             var self = this;
             this.buildGridOptions();
-            this.$scope.gridOptions.data.then(
-                function (dataList) {
-                    self.initRainGrid(dataList);
-                }
-            )
+            if (this.$scope.gridOptions.data) {
+                this.$scope.gridOptions.data.then(
+                    function (dataList) {
+                        self.initRainGrid(dataList);
+                    }
+                )
+            }
         }
 
         buildGridOptions():void {
@@ -237,23 +239,24 @@ module RainGrid {
         }
 
         selectRow(row:IGridRow) {
-                if (!this.$scope.selectable) {
-                    return;
-                }
-                var isSelected = row.rowSelected;
-                angular.forEach(this.$scope.list, function (row:IGridRow) {
-                    row.rowSelected = false;
-                });
-                row.rowSelected = !isSelected;
-                if (row.rowSelected) {
-                    this.$scope.selectedRow = row;
-                }
-                if (row.rowSelected && this.$scope.gridOptions.rowSelectedEvent) {
-                    var funcEvent = this.$scope.gridOptions.rowSelectedEvent.funcEvent;
-                    this.$rootScope.$broadcast(funcEvent, {id: row.id});
-                }
+            if (!this.$scope.selectable) {
+                return;
+            }
+            var isSelected = row.rowSelected;
+            angular.forEach(this.$scope.list, function (row:IGridRow) {
+                row.rowSelected = false;
+            });
+            row.rowSelected = !isSelected;
+            if (row.rowSelected) {
+                this.$scope.selectedRow = row;
+            }
+            if (row.rowSelected && this.$scope.gridOptions.rowSelectedEvent) {
+                var funcEvent = this.$scope.gridOptions.rowSelectedEvent.funcEvent;
+                this.$rootScope.$broadcast(funcEvent, {id: row.id});
+            }
 
         }
+
         deleteRecord(row:IGridRow):void {
             if (this.$scope.deleteEvent && this.$scope.deleteEventIdField) {
                 var field = _.find(row.fields, (col)=> {
@@ -268,7 +271,7 @@ module RainGrid {
 
         editRecord(row:IGridRow):void {
             if (this.$scope.editEvent && this.$scope.editEventIdField) {
-                var field = _.find(row.fields,  (col)=> {
+                var field = _.find(row.fields, (col)=> {
                     return col.field == this.$scope.editEventIdField;
                 });
                 if (field) {

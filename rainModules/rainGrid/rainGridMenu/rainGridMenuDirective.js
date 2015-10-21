@@ -1,3 +1,4 @@
+/*
 (function () {
     angular.module('rainGrid').directive('rainGridMenu', [rainGridMenu]);
 
@@ -14,4 +15,4 @@
         }
     }
 
-})();
+})();*/

@@ -1,7 +1,8 @@
+/*
 (function () {
     angular.module('rainGrid').directive('rainGridFilter', [rainGridFilter]);
 
-    /*-- Function Directive --*/
+    /!*-- Function Directive --*!/
     function rainGridFilter() {
         return {
             restrict: 'AE',
@@ -19,3 +20,4 @@
 
 
 })();
+*/

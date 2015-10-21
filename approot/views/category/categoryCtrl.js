@@ -15,7 +15,7 @@
 
         function activate() {
             vm.gridOptions = setGridOptions();
-            vm.gridOptions.data = repositoryService.getDataList(dbEntityConfig.entities.category);
+            vm.gridOptions.data = repositoryService.getDataList(dbEntityConfig.EntityApi.category);
             vm.gridOptions.data.then(function (data) {
                 if (data.length > 0) {
                     vm.categoryId = data[0].CategoryID;

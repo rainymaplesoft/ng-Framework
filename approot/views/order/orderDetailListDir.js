@@ -31,8 +31,8 @@
         function controller($scope) {
 
             var _message = commonService.showMessage;
-            var _entityOrderDetail = dbEntityConfig.entities.orderDetails;
-            var _entityDeleteOrderDetail = dbEntityConfig.entities.deleteOrderDetail;
+            var _entityOrderDetail = dbEntityConfig.EntityApi.orderDetails;
+            var _entityDeleteOrderDetail = dbEntityConfig.EntityApi.deleteOrderDetail;
 
             $scope.gridOptions = setGridOptions($scope.showDelete, $scope.showEdit, $scope.eventEdit);
 

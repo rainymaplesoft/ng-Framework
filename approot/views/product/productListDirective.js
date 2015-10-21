@@ -1,3 +1,4 @@
+/*
 (function () {
 
     var module = angular.module('app-framework');
@@ -29,10 +30,11 @@
 
             function getProducts() {
                 if ($scope.categoryId === undefined) {
-                    $scope.categoryId = 0;
+                    $scope.gridOptions.data = repositoryService.getDataList(dbEntityConfig.entities.product);
+                }else {
+                    $scope.gridOptions.data = repositoryService.getDataById(
+                        dbEntityConfig.entities.productByCategoryId, $scope.categoryId);
                 }
-                $scope.gridOptions.data = repositoryService.getDataById(
-                    dbEntityConfig.entities.productByCategoryId, $scope.categoryId);
             }
 
             $scope.$on(_eventGetProductDetail, function (event, data) {
@@ -98,4 +100,4 @@
             }
         ];
     }
-})();
+})();*/

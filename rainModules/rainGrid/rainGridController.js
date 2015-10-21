@@ -29,9 +29,11 @@ var RainGrid;
         rainGridController.prototype.activate = function () {
             var self = this;
             this.buildGridOptions();
-            this.$scope.gridOptions.data.then(function (dataList) {
-                self.initRainGrid(dataList);
-            });
+            if (this.$scope.gridOptions.data) {
+                this.$scope.gridOptions.data.then(function (dataList) {
+                    self.initRainGrid(dataList);
+                });
+            }
         };
         rainGridController.prototype.buildGridOptions = function () {
             var gridOptions = { enablePage: true, pageSize: 10, selectable: false, showToolMenu: true };

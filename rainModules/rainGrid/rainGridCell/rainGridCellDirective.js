@@ -1,7 +1,8 @@
+/*
 (function () {
     angular.module('rainGrid').directive('gridCell', [gridCell]);
 
-    /*-- Function Directive --*/
+    /!*-- Function Directive --*!/
     function gridCell() {
 
         return {
@@ -37,4 +38,4 @@
 
 
     }
-})();
+})();*/

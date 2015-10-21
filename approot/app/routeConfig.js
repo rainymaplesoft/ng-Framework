@@ -52,7 +52,8 @@
                 })
                 .state("productList", {
                     url: "/products",
-                    templateUrl: "approot/views/product/productList.html"
+                    template:"<product-list-dir></product-list-dir>"
+                    /*templateUrl: "approot/views/product/productList.html"*/
                 })
                 .state("orderList", {
                     url: "/orders",

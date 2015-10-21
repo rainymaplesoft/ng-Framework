@@ -1,3 +1,4 @@
+/*
 (function () {
     angular.module('rainGrid').controller('rainGrid.menu.controller',
         ['$scope', 'rainGridService', rainGridMenuCtrl]);
@@ -62,4 +63,4 @@
             };
         }
     }
-})();
+})();*/
