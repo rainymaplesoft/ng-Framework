@@ -7,19 +7,20 @@
 /// <reference path="../../typings/tsd.d.ts"/>
 
 import ng_ui=angular.ui.bootstrap;
+
 module rainService.dialog {
 
-    export interface IRainConfirm {
+    export interface IRainDialog {
         confirmModal(title:string, message:string, func_ok:Function):any;
         messageModal(title:string, markup:string, func_ok:Function):any;
     }
 
-    export class RainConfirm implements IRainConfirm {
+    export class RainDialog implements IRainDialog {
 
         static $modal:ng_ui.IModalService;
 
         constructor(private $$modal:ng_ui.IModalService) {
-            RainConfirm.$modal = $$modal;
+            RainDialog.$modal = $$modal;
         }
 
         /** confirmModal **/
@@ -28,7 +29,7 @@ module rainService.dialog {
             title = title || 'Confirm';
             message = message || 'Are you sure?';
 
-            var modalInstance = RainConfirm.$modal.open({
+            var modalInstance = RainDialog.$modal.open({
                 //templateUrl: 'deleteUserModal.html',
                 //size:'sm',
                 template: getConfirmTemplate(title, message),
@@ -68,7 +69,7 @@ module rainService.dialog {
             title = title || 'Information';
             markup = markup || '<p></p>';
 
-            var modalInstance = RainConfirm.$modal.open({
+            var modalInstance = RainDialog.$modal.open({
                 //size:'sm',
                 template: getMessageTemplate(title, markup),
                 controller: ['$scope', '$modalInstance', messageController]
@@ -102,8 +103,8 @@ module rainService.dialog {
     }
 
     factory.$inject = ['$modal'];
-    function factory($modal:ng_ui.IModalService):IRainConfirm {
-        return new RainConfirm($modal);
+    function factory($modal:ng_ui.IModalService):IRainDialog {
+        return new RainDialog($modal);
     }
 
     angular.module('rainService').factory('rainService.dialog', factory);

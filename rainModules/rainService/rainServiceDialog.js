@@ -7,16 +7,16 @@ var rainService;
 (function (rainService) {
     var dialog;
     (function (dialog) {
-        var RainConfirm = (function () {
-            function RainConfirm($$modal) {
+        var RainDialog = (function () {
+            function RainDialog($$modal) {
                 this.$$modal = $$modal;
-                RainConfirm.$modal = $$modal;
+                RainDialog.$modal = $$modal;
             }
             /** confirmModal **/
-            RainConfirm.prototype.confirmModal = function (title, message, func_ok) {
+            RainDialog.prototype.confirmModal = function (title, message, func_ok) {
                 title = title || 'Confirm';
                 message = message || 'Are you sure?';
-                var modalInstance = RainConfirm.$modal.open({
+                var modalInstance = RainDialog.$modal.open({
                     //templateUrl: 'deleteUserModal.html',
                     //size:'sm',
                     template: getConfirmTemplate(title, message),
@@ -48,10 +48,10 @@ var rainService;
                 }
             };
             /** messageModal **/
-            RainConfirm.prototype.messageModal = function (title, markup, func_ok) {
+            RainDialog.prototype.messageModal = function (title, markup, func_ok) {
                 title = title || 'Information';
                 markup = markup || '<p></p>';
-                var modalInstance = RainConfirm.$modal.open({
+                var modalInstance = RainDialog.$modal.open({
                     //size:'sm',
                     template: getMessageTemplate(title, markup),
                     controller: ['$scope', '$modalInstance', messageController]
@@ -77,12 +77,12 @@ var rainService;
                         + '</div>';
                 }
             };
-            return RainConfirm;
+            return RainDialog;
         })();
-        dialog.RainConfirm = RainConfirm;
+        dialog.RainDialog = RainDialog;
         factory.$inject = ['$modal'];
         function factory($modal) {
-            return new RainConfirm($modal);
+            return new RainDialog($modal);
         }
         angular.module('rainService').factory('rainService.dialog', factory);
     })(dialog = rainService.dialog || (rainService.dialog = {}));

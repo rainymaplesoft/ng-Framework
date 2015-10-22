@@ -85,7 +85,7 @@ module app.view {
             });
         }
 
-        getColumnDefs() {
+        getColumnDefs():Array<m_grid.IColumnDefs> {
             return [
                 {
                     field: 'ProductID',
